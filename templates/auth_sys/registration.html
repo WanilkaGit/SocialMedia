@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" action="{% url 'auth_sys:registration' %}" id="registration-form">
+    {% csrf_token %}
+    {{ form.matrix_user_id.label_tag }}
+    {{ form.matrix_user_id }}
+    {% if form.matrix_user_id.errors %}
+        <div class="error">{{ form.matrix_user_id.errors }}</div>
+    {% endif %}
+
+    {{ form.password.label_tag }}
+    {{ form.password }}
+    {% if form.password.errors %}
+        <div class="error">{{ form.password.errors }}</div>
+    {% endif %}
+
+    {{ form.display_name.label_tag }}
+    {{ form.display_name }}
+    {% if form.display_name.errors %}
+        <div class="error">{{ form.display_name.errors }}</div>
+    {% endif %}
+
+    <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_PUBLIC_KEY }}"></div>
+
+    <button type="submit">Зареєструватися</button>
+</form>
+
+<!-- Підключіть JavaScript для reCAPTCHA -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    document.getElementById('registration-form').onsubmit = function() {
+        grecaptcha.reset(); // Скидаємо reCAPTCHA перед відправкою
+    };
+</script>
+{% endblock %}

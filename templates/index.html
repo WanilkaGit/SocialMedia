@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Ласкаво просимо!</h1>
+    {% if user.is_authenticated %}
+        <p>Ви увійшли як {{ user.username }}</p>
+        <a href="{% url 'auth_sys:logout' %}">Вийти</a>
+    {% else %}
+        <p>Будь ласка, <a href="{% url 'auth_sys:login' %}">увійдіть</a> або 
+           <a href="{% url 'auth_sys:registration' %}">зареєструйтесь</a></p>
+    {% endif %}
+</div>
+{% endblock %} 

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="login-form">
+    <h2>Вхід Matrix</h2>
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="matrix_user_id">Matrix ID (@username:matrix.org):</label>
+            <input type="text" name="matrix_user_id" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" required>
+        </div>
+        
+        <button type="submit">Увійти</button>
+    </form>
+    
+    <p>Немає акаунту? <a href="{% url 'auth_sys:registration' %}">Зареєструватися</a></p>
+</div>
+{% endblock %}
