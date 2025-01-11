@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'videozone_sys',
     'projectzone_sys',
     'profile_sys',
+    'messenger_sys',
 ]
 
 MIDDLEWARE = [
