@@ -1,7 +1,5 @@
 from django import forms
 from django.conf import settings
-from django_recaptcha.widgets import ReCaptchaV2Checkbox
-from django_recaptcha.fields import ReCaptchaField
 
 class RegistrationForm(forms.Form):
     matrix_user_id = forms.CharField(
@@ -21,8 +19,6 @@ class RegistrationForm(forms.Form):
         label='Відображуване ім\'я (необов\'язково):',
         required=False
     )
-    recaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox, public_key=settings.RECAPTCHA_PUBLIC_KEY,
-                               private_key=settings.RECAPTCHA_PRIVATE_KEY, label='ReCAPTCHA')
 
 class LoginForm(forms.Form):
     matrix_user_id = forms.CharField(

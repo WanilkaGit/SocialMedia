@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'projectzone_sys',
     'profile_sys',
     'messenger_sys',
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +138,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Додайте ваші ключі reCAPTCHA
 RECAPTCHA_PUBLIC_KEY = '6Ld2DK8qAAAAAOPgc3_xZekKwLIjRLpg6c3J3umL'
 RECAPTCHA_PRIVATE_KEY = '6Ld2DK8qAAAAAAXTnO9fJgMYzSUTAAFeyAd3catO'
+
+# Додайте налаштування для JWT
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}

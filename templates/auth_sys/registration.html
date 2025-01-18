@@ -21,12 +21,11 @@
         <div class="error">{{ form.display_name.errors }}</div>
     {% endif %}
 
-    {{ form.recaptcha }}
-
     <button type="submit">Зареєструватися</button>
 </form>
 
-<!-- Підключіть JavaScript для reCAPTCHA -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% if access_token %}
+    <p>Ваш токен: {{ access_token }}</p>
+{% endif %}
 
 {% endblock %}

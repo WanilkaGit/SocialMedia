@@ -7,82 +7,66 @@ import json
 import uuid
 import requests
 from django.conf import settings
+from nio import AsyncClient, LoginResponse, RegisterResponse
+from rest_framework_simplejwt.tokens import AccessToken
+
+async def register_user(user, password, device_name, auth_dict):
+    client = AsyncClient("https://matrix.org", user)
+    response = await client.register(user=user, password=password, device_name=device_name, auth_dict=auth_dict)
+    return response
 
 def registration_view(request):
-    print(1)
     if request.method == 'POST':
-        print(2)
+        print(1)
         form = RegistrationForm(request.POST)
-        print(3)
-        print(form.is_valid())
+        print(1)
+        print(form.is_valid)
         if form.is_valid():
-            print(4)
+            print(1)
             matrix_user_id = form.cleaned_data['matrix_user_id']
             password = form.cleaned_data['password']
-            display_name = form.cleaned_data['display_name']
-            print(form.cleaned_data['recaptcha'])
-            recaptcha_response = form.cleaned_data['recaptcha']
-            print(5)
-            # Перевірка reCAPTCHA
-            recaptcha_secret = settings.RECAPTCHA_PRIVATE_KEY
-            print(6)
-            try:
-                recaptcha_verification = requests.post(
-                    'https://www.google.com/recaptcha/api/siteverify',
-                    data={
-                        'secret': recaptcha_secret,
-                        'response': recaptcha_response
-                    }
-                )
-                verification_result = recaptcha_verification.json()
-                print(verification_result)
-                if not verification_result.get('success'):
-                    return render(
-                        request, 
-                        'auth_sys/registration.html', 
-                        {'form': form, 'error': 'reCAPTCHA verification failed. Please try again.'}
-                    )
-                print(7)
-            except requests.exceptions.RequestException:
-                return render(
-                    request, 
-                    'auth_sys/registration.html', 
-                    {'form': form, 'error': 'Error connecting to reCAPTCHA. Please try again later.'}
-                )
-            print(8)
-            # Реєстрація користувача
-            try:
-                user = User.objects.create_user(
-                    username=matrix_user_id.split(':')[0][1:], 
-                    password=password
-                )
+            url = "https://matrix-nio.readthedocs.io/en/latest/nio.html#nio.Api.register"
+            auth_dict = {
+                    "type": "m.login.registration_token",
+                    "registration_token": "access_token",
+                    "session": "session-id-from-homeserver"
+                }
+            response = requests.post(url, json=auth_dict)
+            if response.status_code == 200:
+                print("Запит успішний!")
+                print(response.json())
+            else:
+                print("Помилка:", response.status_code)
+                print(response.text)
+            device_name = form.cleaned_data.get('device_name', 'Web Client')
+            
+            
+
+            # Виклик асинхронної функції реєстрації
+            response = register_user(matrix_user_id, password, device_name=device_name, auth_dict=auth_dict)
+
+            if isinstance(response, RegisterResponse):
+                # Реєстрація успішна
+                user = User.objects.create_user(username=matrix_user_id.split(':')[0][1:], password=password)
                 MatrixUser.objects.create(
-                    matrix_user_id=matrix_user_id, 
-                    user=user, 
-                    display_name=display_name
+                    user=user,
+                    matrix_user_id=matrix_user_id,
+                    access_token=response.access_token,
+                    device_id=response.device_id,
                 )
-                print(9)
-                return redirect('auth_sys:login')
                 
-            except Exception as e:
-                return render(
-                    request, 
-                    'auth_sys/registration.html', 
-                    {'form': form, 'error': 'An error occurred during registration. Please try again.'}
-                )
-        else:
-            print(form.errors)
-            print(10)
+                # Генерація JWT
+                access_token = AccessToken.for_user(user)
+
+                return render(request, 'auth_sys/login.html', {'form': form, 'access_token': str(access_token)})
+            else:
+                # Обробка помилок реєстрації
+                return render(request, 'auth_sys/registration.html', {'form': form, 'error': str(response)})
+
     else:
         form = RegistrationForm()
-        
 
-    return render(
-        request, 
-        'auth_sys/registration.html', 
-        {'form': form, 'RECAPTCHA_PUBLIC_KEY': settings.RECAPTCHA_PUBLIC_KEY}
-    )
-
+    return render(request, 'auth_sys/registration.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
