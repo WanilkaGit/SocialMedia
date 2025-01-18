@@ -21,16 +21,12 @@
         <div class="error">{{ form.display_name.errors }}</div>
     {% endif %}
 
-    <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_PUBLIC_KEY }}"></div>
+    {{ form.recaptcha }}
 
     <button type="submit">Зареєструватися</button>
 </form>
 
 <!-- Підключіть JavaScript для reCAPTCHA -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script>
-    document.getElementById('registration-form').onsubmit = function() {
-        grecaptcha.reset(); // Скидаємо reCAPTCHA перед відправкою
-    };
-</script>
+
 {% endblock %}
