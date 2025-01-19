@@ -54,7 +54,7 @@ def registration_view(request):
                     access_token=response.access_token,
                     device_id=response.device_id,
                 )
-                
+
                 # Генерація JWT
                 access_token = AccessToken.for_user(user)
 
