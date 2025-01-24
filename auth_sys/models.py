@@ -11,10 +11,6 @@ from photozone_sys.models import Photos
 import uuid
 
 # Create your models here.
-
-
-
-
 class MatrixUser(models.Model):
     name = models.CharField(max_length=255)
     matrix_user_id = models.CharField(max_length=255, unique=True)
@@ -27,8 +23,9 @@ class MatrixUser(models.Model):
 
 class SMUser(models.Model):
     display_name = models.CharField(max_length=255)
-    matrix_user = models.ManyToManyField(MatrixUser)
+    matrix_user = models.ManyToManyField(MatrixUser, related_name='sm_users', null=True, blank=True)
     last_login_at = models.DateTimeField(auto_now=True)
+    current_user = models.OneToOneField(MatrixUser, on_delete=models.DO_NOTHING, related_name='current_sm_user', null=True, blank=True)
     custom_pref = models.JSONField()
     photos = models.ManyToManyField(Photos)
     videos_long = models.ManyToManyField(LongVideo)

@@ -59,8 +59,9 @@ async def login_matrix(username, password):
     return response
 
 def login_view(request):
+    form = LoginForm(request.POST or None)  # Ініціалізуємо форму на початку
+
     if request.method == 'POST':
-        form = LoginForm(request.POST)
         if form.is_valid():
             matrix_user_id = form.cleaned_data['matrix_user_id']
             password = form.cleaned_data['password']
@@ -85,13 +86,17 @@ def login_view(request):
                     display_name=username,
                     defaults={'custom_pref': {}}  # Використовуємо custom_pref як приклад
                 )
+                
+                # Додавання MatrixUser до SMUser
                 sm_user.matrix_user.add(matrix_user)
-
-                return redirect("messenger_sys:chat")
+                
+                # Зміна значення OneToOneField
+                sm_user.current_user = matrix_user
+                sm_user.save()  # Збереження змін
+                
+                return redirect("messenger_sys:rooms")
             else:
                 return HttpResponse("Failed to log in")
-    else:
-        form = LoginForm()
 
     return render(request, 'auth_sys/login.html', {'form': form})
 
