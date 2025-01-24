@@ -38,15 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_recaptcha',
     'auth_sys',
     'photozone_sys',
     'videozone_sys',
     'projectzone_sys',
     'profile_sys',
     'messenger_sys',
-    'rest_framework',
-    'rest_framework_simplejwt',
+    "audiozone_sys",
 ]
 
 MIDDLEWARE = [

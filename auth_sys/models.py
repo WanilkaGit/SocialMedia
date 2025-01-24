@@ -16,11 +16,9 @@ import uuid
 
 
 class MatrixUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
     matrix_user_id = models.CharField(max_length=255, unique=True)
-    access_token = models.CharField(max_length=255, editable=False)
-    device_id = models.CharField(max_length=255, editable=False, default=uuid.uuid4)
-    homeserver = models.CharField(max_length=255, default='matrix.org')
+    password = models.CharField(max_length=255)
     display_name = models.CharField(max_length=255, null=True, blank=True)
     avatar_url = models.ImageField(upload_to='avatars/', null=True, blank=True)
 

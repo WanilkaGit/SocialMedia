@@ -25,6 +25,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('auth/', include('auth_sys.urls')),
+    path('messenger/', include('messenger_sys.urls')),
     path('video/', include('videozone_sys.urls')),
     path('search/', include('searchzone_sys.urls')),
     path('projects/', include('projectzone_sys.urls')),

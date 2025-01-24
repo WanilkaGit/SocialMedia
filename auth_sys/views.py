@@ -1,49 +1,31 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from .models import MatrixUser
+from .models import MatrixUser, SMUser
 from .forms import RegistrationForm, LoginForm
 import json
 import uuid
 import requests
 from django.conf import settings
-from nio import AsyncClient, LoginResponse, RegisterResponse
+from importlib import util
 from rest_framework_simplejwt.tokens import AccessToken
+from django.http import HttpResponse
+from nio import AsyncClient, LoginResponse, RegisterResponse
+import asyncio
 
-async def register_user(user, password, device_name, auth_dict):
-    client = AsyncClient("https://matrix.org", user)
-    response = await client.register(user=user, password=password, device_name=device_name, auth_dict=auth_dict)
-    return response
 
 def registration_view(request):
     if request.method == 'POST':
-        print(1)
         form = RegistrationForm(request.POST)
-        print(1)
-        print(form.is_valid)
         if form.is_valid():
-            print(1)
             matrix_user_id = form.cleaned_data['matrix_user_id']
             password = form.cleaned_data['password']
-            url = "https://matrix-nio.readthedocs.io/en/latest/nio.html#nio.Api.register"
-            auth_dict = {
-                    "type": "m.login.registration_token",
-                    "registration_token": "access_token",
-                    "session": "session-id-from-homeserver"
-                }
-            response = requests.post(url, json=auth_dict)
-            if response.status_code == 200:
-                print("Запит успішний!")
-                print(response.json())
-            else:
-                print("Помилка:", response.status_code)
-                print(response.text)
-            device_name = form.cleaned_data.get('device_name', 'Web Client')
-            
-            
+            display_name = form.cleaned_data.get('display_name', '')
 
             # Виклик асинхронної функції реєстрації
-            response = register_user(matrix_user_id, password, device_name=device_name, auth_dict=auth_dict)
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            response = loop.run_until_complete(register_user(matrix_user_id, password, display_name))
 
             if isinstance(response, RegisterResponse):
                 # Реєстрація успішна
@@ -53,8 +35,9 @@ def registration_view(request):
                     matrix_user_id=matrix_user_id,
                     access_token=response.access_token,
                     device_id=response.device_id,
+                    display_name=display_name
                 )
-
+                
                 # Генерація JWT
                 access_token = AccessToken.for_user(user)
 
@@ -68,68 +51,45 @@ def registration_view(request):
 
     return render(request, 'auth_sys/registration.html', {'form': form})
 
+
+async def login_matrix(username, password):
+    client = AsyncClient("https://matrix.org", username)
+    response = await client.login(password)
+    await client.close()
+    return response
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             matrix_user_id = form.cleaned_data['matrix_user_id']
             password = form.cleaned_data['password']
-            
+
             # Отримуємо username без @ та домену
             username = matrix_user_id.split(':')[0][1:]
 
-            try:
-                # Спроба автентифікації на Matrix сервері
-                response = requests.post(
-                    "https://matrix.org/_matrix/client/v3/login",
-                    json={
-                        "type": "m.login.password",
-                        "identifier": {
-                            "type": "m.id.user",
-                            "user": username
-                        },
-                        "password": password,
-                        "device_id": str(uuid.uuid4()),
-                        "initial_device_display_name": "Web Client"
-                    }
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            response = loop.run_until_complete(login_matrix(username=matrix_user_id, password=password))
+
+            if isinstance(response, LoginResponse):
+                # Перевірка існування MatrixUser
+                matrix_user, created = MatrixUser.objects.get_or_create(
+                    name=username,
+                    matrix_user_id=matrix_user_id,
+                    defaults={'password': password}
                 )
                 
-                if response.status_code == 200:
-                    data = response.json()
-                    
-                    # Якщо автентифікація успішна, створюємо або оновлюємо користувача
-                    user, created = User.objects.get_or_create(
-                        username=username,
-                        defaults={'password': password}
-                    )
-                    
-                    matrix_user, created = MatrixUser.objects.get_or_create(
-                        matrix_user_id=matrix_user_id,
-                        defaults={
-                            'user': user,
-                            'access_token': data['access_token'],
-                            'device_id': data['device_id'],
-                            'display_name': username
-                        }
-                    )
-                    
-                    if not created:
-                        # Оновлюємо токен для існуючого користувача
-                        matrix_user.access_token = data['access_token']
-                        matrix_user.device_id = data['device_id']
-                        matrix_user.save()
-                    
-                    login(request, user)
-                    return redirect('index')
-                else:
-                    error_data = response.json()
-                    return render(request, 'auth_sys/login.html', 
-                                {'form': form, 'error': f'Помилка Matrix: {error_data.get("error", "Невірний логін або пароль")}'})
+                # Перевірка існування SMUser
+                sm_user, created = SMUser.objects.get_or_create(
+                    display_name=username,
+                    defaults={'custom_pref': {}}  # Використовуємо custom_pref як приклад
+                )
+                sm_user.matrix_user.add(matrix_user)
 
-            except Exception as e:
-                return render(request, 'auth_sys/login.html', 
-                            {'form': form, 'error': f'Помилка: {str(e)}'})
-    
+                return redirect("messenger_sys:chat")
+            else:
+                return HttpResponse("Failed to log in")
     else:
         form = LoginForm()
 
