@@ -1,9 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<form method="POST" action="{% url 'messengr:rooms' %}" id="room-choose-form">
-
-</form>
-
+<div class="container">
+    <h2>Ваші кімнати</h2>
+    
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+    
+    {% if rooms %}
+        <div class="room-list">
+            {% for room in rooms %}
+                <div class="room-item">
+                    <h3>{{ room.room_name }}</h3>
+                    <p>ID: {{ room.room_id }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>У вас поки немає кімнат</p>
+    {% endif %}
+</div>
 {% endblock %}

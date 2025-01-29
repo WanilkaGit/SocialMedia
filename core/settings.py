@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -147,13 +146,15 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Додайте ці налаштування для JWT
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False,
-}
-
+# Додайте ці налаштування
 AUTH_USER_MODEL = 'auth_sys.SMUser'
+
+# Налаштування для входу
+LOGIN_URL = 'auth_sys:login'
+LOGIN_REDIRECT_URL = 'messenger_sys:rooms'
+LOGOUT_REDIRECT_URL = 'auth_sys:login'
+
+# Додайте ці налаштування
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]

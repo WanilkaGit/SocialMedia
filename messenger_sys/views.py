@@ -1,39 +1,46 @@
 from django.shortcuts import render
-import requests
-import asyncio
-from nio import AsyncClient, SyncResponse
-from django.http import JsonResponse
-from auth_sys.models import SMUser
 from django.contrib.auth.decorators import login_required
+from asgiref.sync import async_to_sync
+from django.http import JsonResponse
+from nio import AsyncClient
+from auth_sys.models import SMUser
 
-# Create your views here.
 async def get_rooms(matrix_user_id, password):
     client = AsyncClient("https://matrix.org", matrix_user_id)
-    await client.login(password)
+    
+    try:
+        await client.login(password)  # Логін за допомогою пароля
 
-    sync_response = await client.sync(30000)  # Отримуємо оновлення з сервера
-    rooms = sync_response.rooms.join  # Отримуємо список кімнат, до яких належить користувач
+        sync_response = await client.sync(30000)  # Отримання оновлень
+        rooms = getattr(sync_response.rooms, 'join', {})  # Безпечне отримання кімнат
 
-    room_list = []
-    for room_id, room_info in rooms.items():
-        room_list.append({
-            "room_id": room_id,
-            "room_name": room_info.name
-        })
+        room_list = []
+        for room_id, room_info in rooms.items():
+            room_name = getattr(room_info, "name", "Unnamed Room")  # Запобігаємо помилці
+            room_list.append({
+                "room_id": room_id,
+                "room_name": room_name
+            })
+        
+        return room_list
 
-    return room_list
+    except Exception as e:
+        print(f"Помилка отримання кімнат: {e}")  # Логування помилок
+        return []
+
+    finally:
+        await client.close()  # Закриваємо клієнт після використання
 
 @login_required
 def rooms_view(request):
-    try:
-        # Отримуємо SMUser для поточного користувача
-        sm_user = SMUser.objects.get(display_name=request.user.username)
-        
-        # Отримуємо current_user
-        current_user = sm_user.current_user
+    sm_user = request.user
+    current_user = sm_user.current_user
 
-        # Використовуємо current_user для отримання кімнат
-        room_list = asyncio.run(get_rooms(current_user.matrix_user_id, current_user.password))
-        return JsonResponse(room_list, safe=False)
-    except SMUser.DoesNotExist:
-        return JsonResponse({'error': 'SMUser not found'}, status=404)
+    print(f"Matrix User ID: {current_user.matrix_user_id}")
+    print(f"Password: {current_user.password}")  # ⚠️ ВАЖЛИВО: У реальному додатку не виводь паролі в консоль!
+
+    # Викликаємо асинхронну функцію у синхронному контексті
+    room_list = async_to_sync(get_rooms)(current_user.matrix_user_id, current_user.password)
+
+    context = {'rooms': room_list}
+    return render(request, 'messenger_sys/rooms.html', context)
