@@ -2,6 +2,7 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 
 from projectzone_sys.models import Project
 from audiozone_sys.models import Audio, Music
@@ -21,7 +22,7 @@ class MatrixUser(models.Model):
     def __str__(self):
         return self.matrix_user_id
 
-class SMUser(models.Model):
+class SMUser(AbstractUser):
     display_name = models.CharField(max_length=255)
     matrix_user = models.ManyToManyField(MatrixUser, related_name='sm_users', null=True, blank=True)
     last_login_at = models.DateTimeField(auto_now=True)
