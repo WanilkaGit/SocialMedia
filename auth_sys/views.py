@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from .models import MatrixUser, SMUser
 from .forms import RegistrationForm, LoginForm
@@ -12,7 +12,28 @@ from rest_framework_simplejwt.tokens import AccessToken
 from django.http import HttpResponse
 from nio import AsyncClient, LoginResponse, RegisterResponse
 import asyncio
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
+
+async def register_user(matrix_user_id, password, display_name):
+    # Отримуємо username без @ та домену
+    username = matrix_user_id.split(':')[0][1:]
+    
+    client = AsyncClient("https://matrix.org", matrix_user_id)
+    try:
+        response = await client.register(
+            username=username,
+            password=password,
+            device_id=str(uuid.uuid4())
+        )
+        if display_name:
+            await client.set_displayname(display_name)
+        await client.close()
+        return response
+    except Exception as e:
+        await client.close()
+        return str(e)
 
 def registration_view(request):
     if request.method == 'POST':
@@ -28,75 +49,105 @@ def registration_view(request):
             response = loop.run_until_complete(register_user(matrix_user_id, password, display_name))
 
             if isinstance(response, RegisterResponse):
-                # Реєстрація успішна
-                user = User.objects.create_user(username=matrix_user_id.split(':')[0][1:], password=password)
-                MatrixUser.objects.create(
-                    user=user,
+                # Створюємо SMUser замість User
+                username = matrix_user_id.split(':')[0][1:]
+                
+                # Створюємо MatrixUser
+                matrix_user = MatrixUser.objects.create(
+                    name=username,
                     matrix_user_id=matrix_user_id,
-                    access_token=response.access_token,
-                    device_id=response.device_id,
-                    display_name=display_name
+                    password=password,  # Зверніть увагу: краще зберігати хешований пароль
+                    display_name=display_name if display_name else username
                 )
                 
-                # Генерація JWT
-                access_token = AccessToken.for_user(user)
-
-                return render(request, 'auth_sys/login.html', {'form': form, 'access_token': str(access_token)})
+                # Створюємо SMUser
+                sm_user = SMUser.objects.create(
+                    username=username,
+                    display_name=display_name if display_name else username,
+                    custom_pref={},
+                    current_user=matrix_user
+                )
+                
+                # Встановлюємо пароль для SMUser
+                sm_user.set_password(password)
+                sm_user.save()
+                
+                # Додаємо зв'язок між SMUser та MatrixUser
+                sm_user.matrix_user.add(matrix_user)
+                
+                # Генерація JWT токену
+                access_token = AccessToken.for_user(sm_user)
+                
+                return render(request, 'auth_sys/login.html', {
+                    'form': LoginForm(),
+                    'success_message': 'Реєстрація успішна! Тепер ви можете увійти.',
+                    'access_token': str(access_token)
+                })
             else:
-                # Обробка помилок реєстрації
-                return render(request, 'auth_sys/registration.html', {'form': form, 'error': str(response)})
-
+                return render(request, 'auth_sys/registration.html', {
+                    'form': form,
+                    'error': f'Помилка реєстрації: {str(response)}'
+                })
     else:
         form = RegistrationForm()
 
     return render(request, 'auth_sys/registration.html', {'form': form})
 
 
-async def login_matrix(username, password):
-    client = AsyncClient("https://matrix.org", username)
-    response = await client.login(password)
-    await client.close()
-    return response
+async def login_matrix(matrix_user_id, password):
+    client = AsyncClient("https://matrix.org", matrix_user_id)
+    try:
+        response = await client.login(password=password)
+        await client.close()
+        return response
+    except Exception as e:
+        await client.close()
+        return str(e)
 
 def login_view(request):
-    form = LoginForm(request.POST or None)  # Ініціалізуємо форму на початку
-
     if request.method == 'POST':
+        form = LoginForm(request.POST)
         if form.is_valid():
             matrix_user_id = form.cleaned_data['matrix_user_id']
             password = form.cleaned_data['password']
-
-            # Отримуємо username без @ та домену
-            username = matrix_user_id.split(':')[0][1:]
-
+            
+            # Виклик асинхронної функції логіну
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-            response = loop.run_until_complete(login_matrix(username=matrix_user_id, password=password))
+            response = loop.run_until_complete(login_matrix(matrix_user_id, password))
 
             if isinstance(response, LoginResponse):
-                # Перевірка існування MatrixUser
-                matrix_user, created = MatrixUser.objects.get_or_create(
-                    name=username,
-                    matrix_user_id=matrix_user_id,
-                    defaults={'password': password}
-                )
-                
-                # Перевірка існування SMUser
-                sm_user, created = SMUser.objects.get_or_create(
-                    display_name=username,
-                    defaults={'custom_pref': {}}  # Використовуємо custom_pref як приклад
-                )
-                
-                # Додавання MatrixUser до SMUser
-                sm_user.matrix_user.add(matrix_user)
-                
-                # Зміна значення OneToOneField
-                sm_user.current_user = matrix_user
-                sm_user.save()  # Збереження змін
-                
-                return redirect("messenger_sys:rooms")
+                try:
+                    # Спробуємо знайти існуючого MatrixUser
+                    matrix_user = MatrixUser.objects.get(matrix_user_id=matrix_user_id)
+                    
+                    # Оновлюємо токен доступу, якщо потрібно
+                    matrix_user.access_token = response.access_token
+                    matrix_user.save()
+                    
+                    # Знаходимо відповідного SMUser
+                    sm_user = SMUser.objects.get(matrix_user=matrix_user)
+                    
+                    # Перевіряємо пароль
+                    if sm_user.check_password(password):
+                        # Виконуємо логін
+                        login(request, sm_user)
+                        
+                        # Оновлюємо current_user
+                        sm_user.current_user = matrix_user
+                        sm_user.save()
+                        
+                        return redirect('messenger_sys:rooms')
+                    else:
+                        form.add_error(None, 'Невірний пароль')
+                except MatrixUser.DoesNotExist:
+                    form.add_error(None, 'Користувача не знайдено. Будь ласка, зареєструйтесь')
+                except SMUser.DoesNotExist:
+                    form.add_error(None, 'Помилка облікового запису. Зверніться до адміністратора')
             else:
-                return HttpResponse("Failed to log in")
+                form.add_error(None, f'Помилка входу в Matrix: {str(response)}')
+    else:
+        form = LoginForm()
 
     return render(request, 'auth_sys/login.html', {'form': form})
 
