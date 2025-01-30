@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     'profile_sys',
     'messenger_sys',
     "audiozone_sys",
-    "rest_framework",
-    "rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
@@ -145,16 +143,3 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-
-# Додайте ці налаштування
-AUTH_USER_MODEL = 'auth_sys.SMUser'
-
-# Налаштування для входу
-LOGIN_URL = 'auth_sys:login'
-LOGIN_REDIRECT_URL = 'messenger_sys:rooms'
-LOGOUT_REDIRECT_URL = 'auth_sys:login'
-
-# Додайте ці налаштування
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-]

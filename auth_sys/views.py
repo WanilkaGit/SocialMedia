@@ -58,7 +58,6 @@ async def login_matrix(username, password):
     await client.close()
     return response
 
-
 def login_view(request):
     form = LoginForm(request.POST or None)  # Ініціалізуємо форму на початку
 
@@ -78,6 +77,7 @@ def login_view(request):
                 # Перевірка існування MatrixUser
 
                 user = authenticate(username=username, password=password)
+                # Перевірка існування MatrixUser
                 if user is not None:
                     login(request, user)
                     matrix_user, created = MatrixUser.objects.get_or_create(
@@ -99,9 +99,10 @@ def login_view(request):
                     sm_user.current_user = matrix_user
                     sm_user.save()  # Збереження змін
                     
-                return redirect("messenger_sys:rooms")
-            else:
-                return HttpResponse("Failed to log in")
+                    return redirect("messenger_sys:rooms")
+                else:
+                    return HttpResponse("Failed to log in")
+
     return render(request, 'auth_sys/login.html', {'form': form})
 
 def logout_view(request):
