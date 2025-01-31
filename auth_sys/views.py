@@ -10,7 +10,7 @@ from django.conf import settings
 from importlib import util
 from rest_framework_simplejwt.tokens import AccessToken
 from django.http import HttpResponse
-from nio import AsyncClient, LoginResponse, RegisterResponse
+from nio import AsyncClient, LoginResponse, RegisterResponse, LogoutResponse, LocalProtocolError
 import asyncio
 
 
@@ -56,6 +56,7 @@ async def login_matrix(username, password):
     client = AsyncClient("https://matrix.org", username)
     
     response = await client.login(password)
+    await client.close()
     
     if isinstance(response, LoginResponse):
         print(response.access_token)
@@ -106,6 +107,7 @@ def login_view(request):
                     sm_user.current_user.access_token = response
                     sm_user.save()
                     print(sm_user.current_user.access_token)
+                    print(response) 
                     
                     return redirect("messenger_sys:rooms")
                 else:
@@ -113,25 +115,36 @@ def login_view(request):
 
     return render(request, 'auth_sys/login.html', {'form': form})
 
+async def logout_matrix(access_token):
+    client = AsyncClient("https://matrix.org")
+    try:
+        if access_token:
+            client.access_token = access_token
+            response = await client.logout()
+            return response
+    except LocalProtocolError:
+        print("User was not logged in to Matrix.")
+    finally:
+        await client.close()
+
 def logout_view(request):
-    if request.user.is_authenticated:
-        try:
-            matrix_user = MatrixUser.objects.get(user=request.user)
+    if request.method == 'POST':
+        user = request.user
+        
+        if user.is_authenticated and hasattr(user, 'current_user'):
+            matrix_user = user.current_user
+            access_token = getattr(matrix_user, 'access_token', None)
             
-            # Вихід з Matrix сесії
-            response = requests.post(
-                "https://matrix.org/_matrix/client/r0/logout",
-                headers={
-                    "Authorization": f"Bearer {matrix_user.access_token}"
-                }
-            )
-            
-            # Видаляємо токен
-            matrix_user.access_token = ""
-            matrix_user.save()
-            
-        except Exception as e:
-            print(f"Помилка при виході з Matrix: {str(e)}")
+            if access_token:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                loop.run_until_complete(logout_matrix(access_token))
+                
+                # Очистити access_token перед виходом
+                matrix_user.access_token = ""
+                matrix_user.save()
         
         logout(request)
-    return redirect('index')
+        return redirect('auth_sys:login')
+    
+    return render(request, 'auth_sys/logout.html')
