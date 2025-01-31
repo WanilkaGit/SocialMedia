@@ -15,6 +15,7 @@ async def get_rooms(matrix_user_id, access_token):
 
     sync_response = await client.sync(30000)  # Fetch room updates
     rooms = sync_response.rooms.join  # Get joined rooms
+    print(client.access_token)
 
     room_list = []
     for room_id, room_info in rooms.items():

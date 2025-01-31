@@ -58,6 +58,7 @@ async def login_matrix(username, password):
     response = await client.login(password)
     
     if isinstance(response, LoginResponse):
+        print(response.access_token)
         return response.access_token  # Повертаємо access_token
     else:
         return None  # Якщо логін не вдався, повертаємо None
@@ -102,6 +103,9 @@ def login_view(request):
                     # Зміна значення OneToOneField
                     sm_user.current_user = matrix_user
                     sm_user.save()  # Збереження змін
+                    sm_user.current_user.access_token = response
+                    sm_user.save()
+                    print(sm_user.current_user.access_token)
                     
                     return redirect("messenger_sys:rooms")
                 else:
