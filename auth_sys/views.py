@@ -54,9 +54,13 @@ def registration_view(request):
 
 async def login_matrix(username, password):
     client = AsyncClient("https://matrix.org", username)
+    
     response = await client.login(password)
-    await client.close()
-    return response
+    
+    if isinstance(response, LoginResponse):
+        return response.access_token  # Повертаємо access_token
+    else:
+        return None  # Якщо логін не вдався, повертаємо None
 
 def login_view(request):
     form = LoginForm(request.POST or None)  # Ініціалізуємо форму на початку
@@ -73,7 +77,7 @@ def login_view(request):
             asyncio.set_event_loop(loop)
             response = loop.run_until_complete(login_matrix(username=matrix_user_id, password=password))
 
-            if isinstance(response, LoginResponse):
+            if response != None:
                 # Перевірка існування MatrixUser
 
                 user = authenticate(username=username, password=password)
