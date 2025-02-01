@@ -105,7 +105,7 @@ def login_view(request):
                     sm_user.current_user = matrix_user
                     sm_user.save()  # Збереження змін
                     sm_user.current_user.access_token = response
-                    sm_user.save()
+                    sm_user.current_user.save()
                     print(sm_user.current_user.access_token)
                     print(response) 
                     

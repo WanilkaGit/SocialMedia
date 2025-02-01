@@ -17,7 +17,7 @@ class MatrixUser(models.Model):
     password = models.CharField(max_length=255)
     display_name = models.CharField(max_length=255, null=True, blank=True)
     avatar_url = models.ImageField(upload_to='avatars/', null=True, blank=True)
-    access_token = models.TextField(null=True, blank=True)
+    access_token = models.TextField(null=True, blank=True, unique=True)
 
     def __str__(self):
         return self.matrix_user_id
