@@ -3,8 +3,23 @@
 {% block content %}
 
 <form method="POST" action="{% url 'messenger_sys:rooms' %}" id="room-choose-form">
-    <h1>Sorry but we work on it</h1>
-
+    {% csrf_token %}
+    <div class="room-list">
+        {% if rooms %}
+            {% for room in rooms %}
+                <div class="room-item">
+                    <h3>{{ room.room_name }}</h3>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>У вас поки немає кімнат</p>
+        {% endif %}
+    </div>
+    
+    <div class="message-form">
+        <textarea name="message_body" placeholder="Введіть ваше повідомлення"></textarea>
+        <button type="submit">Надіслати</button>
+    </div>
 </form>
 
 {% endblock %}

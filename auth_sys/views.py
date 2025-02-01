@@ -109,7 +109,7 @@ def login_view(request):
                     print(sm_user.current_user.access_token)
                     print(response) 
                     
-                    return redirect("messenger_sys:rooms")
+                    return redirect("photozone_sys:photos")
                 else:
                     return HttpResponse("Failed to log in")
 

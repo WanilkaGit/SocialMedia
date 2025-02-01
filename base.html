@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}портал группи{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="top-panel">
+        <!-- Левая секция -->
+        <div class="left-section">
+            <a href="{% url 'index' %}">
+                <button class="panel-button"><b>Головна</b></button>
+            </a>
+        </div>
+    
+        <!-- Центральная секция -->
+        <div class="center-section">
+            <a href="{% url 'forum' %}">
+                <button class="panel-button"><b>Форум</b></button>
+            </a>
+            <a href="{% url 'events-list' %}">
+                <button class="panel-button"><b>Події</b></button>
+            </a>
+            <div class="dropdown">
+                <input type="checkbox" id="toggle" class="dropdown-toggle">
+                <label for="toggle" class="panel-button dropdown-label">
+                    <b>Інше</b>
+                    <span class="arrow">▼</span>
+                </label>
+                <div class="dropdown-menu">
+                    <a href="{% url 'daily' %}"><button class="small-button">Щоденник</button></a>
+                    <a href="{% url 'gallery' %}"><button class="small-button">Галерея</button></a>
+                    <button class="small-button">Кнопка</button>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Правая секция -->
+        <div class="right-section">
+            {% if not request.user.is_authenticated %}
+                <a href="{% url 'login' %}" class="login-button"><b>Вхід</b></a>
+                <a href="{% url 'register' %}" class="register-button"><b>Реєстрація</b></a>
+            {% else %}
+                <div class="profile-dropdown">
+                    <div class="user-field dropdown-toggle">
+                        <img src="{{ request.user.avatar.url }}" alt="avatar" class="avatar">
+                        <div class="user-name">{{ request.user.username }}</div>
+                    </div>
+                    <div class="profile-dropdown-menu">
+                        <a href="{% url 'profile' request.user.username %}" class="dropdown-item">
+                            <img src="{{ request.user.avatar.url }}" alt="avatar" class="small-avatar">
+                            Мій профіль
+                        </a>
+                        <a href="{% url 'view-history' %}" class="dropdown-item">
+                            <i class="history-icon">🔍</i>
+                            Історія переглядів
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        
+                        <!-- Швидкі акаунти -->
+                        <div class="quick-accounts">
+                            <div class="quick-accounts-header">Збережені акаунти</div>
+                            {% for account in saved_accounts %}
+                                <div class="dropdown-item account-item" onclick="switchAccount('{{ account.username }}')">
+                                    <img src="{{ account.avatar.url }}" alt="avatar" class="small-avatar">
+                                    {{ account.username }}
+                                </div>
+                            {% endfor %}
+                            <button onclick="showAddAccountModal()" class="add-account-btn">
+                                + Додати акаунт
+                            </button>
+                        </div>
+                        
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:void(0)" onclick="handleLogout()" class="dropdown-item logout-item">
+                            <i class="logout-icon">↪</i>
+                            Вийти
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Модальне вікно для додавання акаунту -->
+    <div id="addAccountModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Додати акаунт для швидкого доступу</h2>
+            <form id="addAccountForm">
+                <input type="text" placeholder="Логін" id="accountUsername" required>
+                <input type="password" placeholder="Пароль" id="accountPassword" required>
+                <button type="submit">Додати</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showAddAccountModal() {
+            const modal = document.getElementById('addAccountModal');
+            modal.style.display = 'block';
+        }
+
+        // Закриття модального вікна при кліку на хрестик
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('addAccountModal').style.display = 'none';
+        }
+
+        // Закриття модального вікна при кліку поза ним
+        window.onclick = function(event) {
+            const modal = document.getElementById('addAccountModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Обробка форми додавання акаунту
+        document.getElementById('addAccountForm').onsubmit = function(e) {
+            e.preventDefault();
+            const username = document.getElementById('accountUsername').value;
+            const password = document.getElementById('accountPassword').value;
+            
+            fetch('/auth/add-saved-account/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ 
+                    username: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        function switchAccount(username) {
+            fetch(`/auth/switch-account/${username}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        function handleLogout() {
+            fetch('/auth/logout/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    window.location.href = '/';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="photos-container">
+    <h2>Photos zone</h2>
+    
+    {% if photos %}
+        <div class="photos-grid">
+            {% for photo in photos %}
+                <div class="photo-item">
+                    {% if photo.photos %}
+                        <img src="{{ photo.photos.url }}" alt="{{ photo.title }}">
+                    {% endif %}
+                    {% if photo.title %}
+                        <h3>{{ photo.title }}</h3>
+                    {% endif %}
+                    {% if photo.description %}
+                        <p>{{ photo.description }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="sorry">This zone is empty now.</p>
+        <p class="sorry">But you can change it by adding some photo</p>
+        <p class="sorry-smile">;)</p>
+    {% endif %}
+    
+    <div class="upload-section">
+        <h3>Завантажити нову фотографію</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="photo" accept="image/*" required>
+            <input type="text" name="title" placeholder="Назва фотографії">
+            <textarea name="description" placeholder="Опис фотографії"></textarea>
+            <button type="submit">Завантажити</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

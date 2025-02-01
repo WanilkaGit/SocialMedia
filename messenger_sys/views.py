@@ -26,6 +26,22 @@ async def get_rooms(matrix_user_id, access_token):
     await client.close()
     return room_list
 
+async def send_message(matrix_user_id, access_token, room_id, message):
+    client = AsyncClient("https://matrix.org", matrix_user_id)
+    client.access_token = access_token
+
+    try:
+        response = await client.room_send(
+            room_id=room_id,
+            message_type="m.room.message",
+            content={
+                "msgtype": "m.text",
+                "body": message
+            }
+        )
+        return response
+    finally:
+        await client.close()
 
 @login_required
 def rooms_view(request):
@@ -37,6 +53,24 @@ def rooms_view(request):
     if not current_user.access_token:
         return JsonResponse({"error": "No access token available"}, status=403)
 
+    if request.method == 'POST':
+        room_id = request.POST.get('room_id')
+        message_body = request.POST.get('message_body')
+        
+        if room_id and message_body:
+            response = async_to_sync(send_message)(
+                current_user.matrix_user_id,
+                current_user.access_token,
+                room_id,
+                message_body
+            )
+            if response and hasattr(response, 'event_id'):
+                return JsonResponse({"success": True, "event_id": response.event_id})
+            else:
+                return JsonResponse({"error": "Failed to send message"}, status=500)
+        else:
+            return JsonResponse({"error": "Missing room_id or message_body"}, status=400)
+
     # Run async function safely in sync Django view
     room_list = async_to_sync(get_rooms)(current_user.matrix_user_id, current_user.access_token)
     print(room_list)
@@ -45,4 +79,5 @@ def rooms_view(request):
         content = {'rooms': room_list}
         return render(request, 'messenger_sys/rooms.html', content)
     else:
-        print("you have error")
+        print("Error fetching rooms")
+        return JsonResponse({"error": "Failed to fetch rooms"}, status=500)

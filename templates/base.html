@@ -4,38 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Matrix Auth{% endblock %}</title>
-    <style>
-        .registration-form, .login-form {
-            max-width: 500px;
-            margin: 2rem auto;
-            padding: 1rem;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 0.5rem;
-        }
-        .alert {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 4px;
-        }
-        .alert-danger {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-    </style>
 </head>
 <body>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="top-panel">
+        <!-- Левая секция -->
+        <div class="left-section">
+            <a href="{% url 'index' %}">
+                <button class="panel-button"><b>Головна</b></button>
+            </a>
+        </div>
+    
+        <!-- Центральная секция -->
+        <div class="center-section">
+            <a href="">
+                <button class="panel-button">Project</button>
+            </a>
+
+            <div class="dropdown">
+                <input type="checkbox" id="toggle" class="dropdown-toggle">
+                <label for="toggle" class="panel-button dropdown-label">
+                    <b>Photos</b>
+                    <span class="arrow">▼</span>
+                </label>
+                <div class="dropdown-menu">
+                    <a href="{% url 'daily' %}"><button class="small-button">World</button></a>
+                    <a href="{% url 'gallery' %}"><button class="small-button">Work</button></a>
+                </div>
+            </div>             
+            <div class="dropdown">
+                <input type="checkbox" id="toggle" class="dropdown-toggle">
+                <label for="toggle" class="panel-button dropdown-label">
+                    <b>Music</b>
+                    <span class="arrow">▼</span>
+                </label>
+                <div class="dropdown-menu">
+                    <a href="{% url 'daily' %}"><button class="small-button">Music</button></a>
+                    <a href="{% url 'gallery' %}"><button class="small-button">Audio</button></a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <input type="checkbox" id="toggle" class="dropdown-toggle">
+                <label for="toggle" class="panel-button dropdown-label">
+                    <b>Video</b>
+                    <span class="arrow">▼</span>
+                </label>
+                <div class="dropdown-menu">
+                    <a href="{% url 'daily' %}"><button class="small-button">Long</button></a>
+                    <a href="{% url 'gallery' %}"><button class="small-button">Short</button></a>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Правая секция -->
+        <div class="right-section">
+            {% if not request.user.is_authenticated %}
+                <a href="{% url 'login' %}" class="login-button"><b>Вхід</b></a>
+                <a href="{% url 'register' %}" class="register-button"><b>Реєстрація</b></a>
+            {% else %}
+                <div class="profile-dropdown">
+                    <div class="user-field dropdown-toggle">
+                        <img src="{{ request.user.avatar.url }}" alt="avatar" class="avatar">
+                        <div class="user-name">{{ request.user.username }}</div>
+                    </div>
+                    <div class="profile-dropdown-menu">
+                        <a href="{% url 'profile' request.user.username %}" class="dropdown-item">
+                            <img src="{{ request.user.avatar.url }}" alt="avatar" class="small-avatar">
+                            Мій профіль
+                        </a>
+                        <a href="{% url 'view-history' %}" class="dropdown-item">
+                            <i class="history-icon">🔍</i>
+                            Історія переглядів
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        
+                        <!-- Швидкі акаунти -->
+                        <div class="quick-accounts">
+                            <div class="quick-accounts-header">Збережені акаунти</div>
+                            {% for account in saved_accounts %}
+                                <div class="dropdown-item account-item" onclick="switchAccount('{{ account.username }}')">
+                                    <img src="{{ account.avatar.url }}" alt="avatar" class="small-avatar">
+                                    {{ account.username }}
+                                </div>
+                            {% endfor %}
+                            <button onclick="showAddAccountModal()" class="add-account-btn">
+                                + Додати акаунт
+                            </button>
+                        </div>
+                        
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:void(0)" onclick="handleLogout()" class="dropdown-item logout-item">
+                            <i class="logout-icon">↪</i>
+                            Вийти
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% block content %}
+    {% endblock %}
+
+    <div class="base-end-div">
+        <p class="base-end">Привіт! Дякую, за використання нашого веб додатку.</p>
+        <p class="base-end">Ми з України і раді бачити тебе в нас. Якщо ми тобі цікаві, ти можеш знайти нас</p>
+        <p class="base-src">Matrix:</p>
+        <p class="base-src">TikTok:</p>
+        <p class="base-src">YouTube:</p>
+        <p class="base-src">Drykarnya:</p>
+        <p class="base-src">GitHub:</p>
+    </div>
+        
 </body>
 </html>
