@@ -1,0 +1,382 @@
+body {
+    margin: 0;
+    font-family: "DejaVu Sans Mono", monospace;
+    background-color: #0E141B;
+    padding-top: 2.3cm;
+}
+
+p {
+    color: #5D8CB3;
+}
+
+.head {
+    margin-top: 0;
+    color: #4a708f;
+    text-align: center;
+}
+
+.top-panel {
+    background-color: blue;
+    color: white;
+    border: 0.5px solid white;
+    border-radius: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: -2cm;
+    position: fixed;
+    z-index: 9999;
+}
+
+.left-section {
+    margin-right: auto;
+}
+
+.center-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-right: auto;
+}
+
+.right-section {
+    display: flex;
+    gap: 15px; /* Расстояние между кнопками */
+}
+
+.right-section>a {
+    text-decoration: none;
+}
+
+.panel-button {
+    color: #A0A0A0;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: color 0.3s ease;
+}
+
+.panel-button:hover {
+    color: white;
+}
+
+.panel-button:focus {
+    outline: none;
+}
+
+.dropdown {
+    position: relative;
+    width: auto;
+}
+
+.dropdown-toggle {
+    display: none;
+}
+
+.dropdown-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #A0A0A0;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 15px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-label:hover {
+    color: white;
+}
+
+.arrow {
+    margin-left: 5px;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-toggle:checked + .dropdown-label .arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    background-color: #000000;
+    border: 0.5px solid white;
+    border-radius: 15px;
+    padding: 15px;
+    width: 110px;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu>a {
+    text-decoration: none;
+}
+
+.dropdown-toggle:checked + .dropdown-label + .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.small-button {
+    color: #A0A0A0;
+    text-align: left;
+    font-size: 14px;
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    border-radius: 5px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.small-button:hover {
+    color: white;
+}
+
+/* Кнопка "Логін" */
+.login-button {
+    color: #211CBF; /* Основной цвет текста */
+    text-decoration: none;
+    font-size: 18px; /* Сделать текст побольше */
+    font-weight: bold;
+    padding: 5px 10px;
+    background: none; /* Убираем фон */
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.login-button:hover {
+    color: #322CF6; /* Цвет текста при наведении */
+}
+
+/* Кнопка "Реєстрація" */
+.register-button {
+    color: #CC0000; /* Основной цвет текста */
+    text-decoration: none;
+    font-size: 18px; /* Сделать текст побольше */
+    font-weight: bold;
+    padding: 5px 10px;
+    background: none; /* Убираем фон */
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.register-button:hover {
+    color: #FF3333; /* Цвет текста при наведении */
+}
+
+.user-field {
+    display: flex;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: #2a2a2a;
+    background-color: #40404e;
+}
+
+.avatar {
+    object-fit: cover;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+}
+
+.user-name {
+    color: #5D8CB3;
+    margin-left: 0.2cm;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #1E1E1E;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #253949;
+    border-radius: 5px;
+    border: 2px solid #1E1E1E;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #A0A0A0;
+  }
+
+/* Стилі для дропдауну профілю */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #1E2A38;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    min-width: 200px;
+    z-index: 1000;
+    padding: 8px 0;
+}
+
+.profile-dropdown:hover .profile-dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    color: #5D8CB3;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #2C3E50;
+}
+
+.small-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #2C3E50;
+    margin: 8px 0;
+}
+
+.quick-accounts {
+    padding: 8px 0;
+}
+
+.quick-accounts-header {
+    padding: 4px 16px;
+    color: #7FA1C1;
+    font-size: 0.9em;
+}
+
+.add-account-btn {
+    width: 100%;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    color: #5D8CB3;
+    cursor: pointer;
+    text-align: left;
+}
+
+.add-account-btn:hover {
+    background-color: #2C3E50;
+}
+
+.logout-item {
+    color: #E74C3C;
+}
+
+.logout-icon {
+    margin-right: 8px;
+    font-style: normal;
+}
+
+/* Стилі для модального вікна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1001;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #1E2A38;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    color: #5D8CB3;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.modal input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    background: #2C3E50;
+    border: 1px solid #34495E;
+    border-radius: 4px;
+    color: #7FA1C1;
+}
+
+.modal button {
+    padding: 8px 16px;
+    background: #2C3E50;
+    border: none;
+    border-radius: 4px;
+    color: #7FA1C1;
+    cursor: pointer;
+}
+
+.modal button:hover {
+    background: #34495E;
+}
+
+.account-item {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+}
+
+.account-item:hover {
+    background-color: #2C3E50;
+}
+
+/* Видаляємо стару кнопку "Перейти" */
+.switch-btn {
+    display: none;
+}

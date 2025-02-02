@@ -7,25 +7,25 @@
         <h3>Завантажити нову фотографію</h3>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="photo" accept="image/*" required>
+            <input type="file" name="image" accept="image/*" required>
             <input type="text" name="title" placeholder="Назва фотографії">
             <textarea name="description" placeholder="Опис фотографії"></textarea>
             <button type="submit">Завантажити</button>
         </form>
     </div>
-    
-    {% if photos %}
+
+    {% if imgs %}
         <div class="photos-grid">
-            {% for photo in photos %}
+            {% for img in imgs %}
                 <div class="photo-item">
-                    {% if photo.photos %}
+                    {% if img.images %}
                         <img src="{{ photo.photos.url }}" alt="{{ photo.title }}">
                     {% endif %}
-                    {% if photo.title %}
-                        <h3>{{ photo.title }}</h3>
+                    {% if imgs.title %}
+                        <h3>{{ img.title }}</h3>
                     {% endif %}
-                    {% if photo.description %}
-                        <p>{{ photo.description }}</p>
+                    {% if img.description %}
+                        <p>{{ img.description }}</p>
                     {% endif %}
                 </div>
             {% endfor %}

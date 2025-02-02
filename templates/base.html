@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Matrix Auth{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
 </head>
 <body>
     <div class="top-panel">
@@ -27,8 +29,8 @@
                     <span class="arrow">▼</span>
                 </label>
                 <div class="dropdown-menu">
-                    <a href="{% url 'daily' %}"><button class="small-button">World</button></a>
-                    <a href="{% url 'gallery' %}"><button class="small-button">Work</button></a>
+                    <a href=""><button class="small-button">World</button></a>
+                    <a href=""><button class="small-button">Work</button></a>
                 </div>
             </div>             
             <div class="dropdown">
@@ -38,8 +40,8 @@
                     <span class="arrow">▼</span>
                 </label>
                 <div class="dropdown-menu">
-                    <a href="{% url 'daily' %}"><button class="small-button">Music</button></a>
-                    <a href="{% url 'gallery' %}"><button class="small-button">Audio</button></a>
+                    <a href=""><button class="small-button">Music</button></a>
+                    <a href=""><button class="small-button">Audio</button></a>
                 </div>
             </div>
             <div class="dropdown">
@@ -49,8 +51,8 @@
                     <span class="arrow">▼</span>
                 </label>
                 <div class="dropdown-menu">
-                    <a href="{% url 'daily' %}"><button class="small-button">Long</button></a>
-                    <a href="{% url 'gallery' %}"><button class="small-button">Short</button></a>
+                    <a href=""><button class="small-button">Long</button></a>
+                    <a href=""><button class="small-button">Short</button></a>
                 </div>
             </div>
         </div>
@@ -58,44 +60,22 @@
         <!-- Правая секция -->
         <div class="right-section">
             {% if not request.user.is_authenticated %}
-                <a href="{% url 'login' %}" class="login-button"><b>Вхід</b></a>
-                <a href="{% url 'register' %}" class="register-button"><b>Реєстрація</b></a>
+                <a href="{% url 'auth_sys:login' %}" class="login-button"><b>Вхід</b></a>
+                <a href="{% url 'auth_sys:registration' %}" class="register-button"><b>Реєстрація</b></a>
             {% else %}
                 <div class="profile-dropdown">
                     <div class="user-field dropdown-toggle">
-                        <img src="{{ request.user.avatar.url }}" alt="avatar" class="avatar">
+                        <img src="" alt="avatar" class="avatar">
                         <div class="user-name">{{ request.user.username }}</div>
                     </div>
                     <div class="profile-dropdown-menu">
-                        <a href="{% url 'profile' request.user.username %}" class="dropdown-item">
-                            <img src="{{ request.user.avatar.url }}" alt="avatar" class="small-avatar">
+                        <a href="" class="dropdown-item">
+                            <img src="" alt="avatar" class="small-avatar">
                             Мій профіль
                         </a>
-                        <a href="{% url 'view-history' %}" class="dropdown-item">
-                            <i class="history-icon">🔍</i>
-                            Історія переглядів
-                        </a>
                         <div class="dropdown-divider"></div>
                         
-                        <!-- Швидкі акаунти -->
-                        <div class="quick-accounts">
-                            <div class="quick-accounts-header">Збережені акаунти</div>
-                            {% for account in saved_accounts %}
-                                <div class="dropdown-item account-item" onclick="switchAccount('{{ account.username }}')">
-                                    <img src="{{ account.avatar.url }}" alt="avatar" class="small-avatar">
-                                    {{ account.username }}
-                                </div>
-                            {% endfor %}
-                            <button onclick="showAddAccountModal()" class="add-account-btn">
-                                + Додати акаунт
-                            </button>
-                        </div>
-                        
                         <div class="dropdown-divider"></div>
-                        <a href="javascript:void(0)" onclick="handleLogout()" class="dropdown-item logout-item">
-                            <i class="logout-icon">↪</i>
-                            Вийти
-                        </a>
                     </div>
                 </div>
             {% endif %}
