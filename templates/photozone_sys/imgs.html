@@ -19,9 +19,9 @@
             {% for img in imgs %}
                 <div class="photo-item">
                     {% if img.images %}
-                        <img src="{{ photo.photos.url }}" alt="{{ photo.title }}">
+                        <img src="{{ img.images.url }}" alt="{{ img.title }}">
                     {% endif %}
-                    {% if imgs.title %}
+                    {% if img.title %}
                         <h3>{{ img.title }}</h3>
                     {% endif %}
                     {% if img.description %}
