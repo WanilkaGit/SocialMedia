@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Logout</title>
-</head>
-<body>
-    <h2>Logout</h2>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Logout</h2>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+{% endblock %}
