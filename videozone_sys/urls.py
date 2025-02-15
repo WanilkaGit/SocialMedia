@@ -1,8 +1,9 @@
 from django.urls import path
 from . import views
 
-app_name = 'messanjer_sys'
+app_name = 'videozone_sys'
 
 urlpatterns = [
-    # Тут будуть додані URL-шаблони для messanjer_sys
+   path('long-video/', views.long_videozone_view, name='long-video'),
+   path('short-video/', views.short_videozone_view, name='short-video')
 ] 

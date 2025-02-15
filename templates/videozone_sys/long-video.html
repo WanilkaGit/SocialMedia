@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завантажити коротке відео</title>
+</head>
+<body>
+    <h1>Завантажити коротке відео</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="long-video">Виберіть коротке відео:</label>
+        <input type="file" name="long-video" id="long-video" required>
+        
+        <label for="title">Назва:</label>
+        <input type="text" name="title" id="title" required>
+        
+        <label for="description">Опис:</label>
+        <textarea name="description" id="description" required></textarea>
+        
+        <button type="submit">Завантажити</button>
+    </form>
+
+    <h2>Список завантажених коротких відео</h2>
+    <ul>
+        {% for video in long_video %}
+            <li>
+                <h3>{{ video.title }}</h3>
+                <p>{{ video.description }}</p>
+                <video width="320" height="240" controls>
+                    <source src="{{ video.long_video.url }}" type="video/mp4">
+                    Ваш браузер не підтримує відео.
+                </video>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

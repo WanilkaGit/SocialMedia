@@ -16,7 +16,7 @@ def photoszone_view(request):
                 photos=photo,
                 title=title if title else '',
                 description=description if description else '',
-                size='',
+                size=photo.size,
                 share_link='',
                 share_title=title if title else ''
             )
@@ -46,7 +46,7 @@ def imgs_4_designs_view(request):
                     images=img,
                     title=title if title else '',
                     description=description if description else '',
-                    size='',
+                    size=img.size,
                     share_link='',
                     share_title=title if title else ''
                 )

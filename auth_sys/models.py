@@ -48,6 +48,7 @@ class SMUser(AbstractBaseUser, PermissionsMixin):
     videos_short = models.ManyToManyField(ShortVideo, blank=True)
     audio = models.ManyToManyField(Audio, blank=True)
     music = models.ManyToManyField(Music, blank=True)
+  
     project = models.ManyToManyField(Project, blank=True)
     
     is_active = models.BooleanField(default=True)

@@ -1,1 +1,3 @@
 python manage.py makemigrations auth_sys photozone_sys videozone_sys projectzone_sys profile_sys messenger_sys audiozone_sys
+
+Pillow, OpenCV, File.size
