@@ -24,8 +24,8 @@
             </a>
 
             <div class="dropdown">
-                <input type="checkbox" id="toggle" class="dropdown-toggle">
-                <label for="toggle" class="panel-button dropdown-label">
+                <input type="checkbox" id="toggle-photos" class="dropdown-toggle">
+                <label for="toggle-photos" class="panel-button dropdown-label">
                     <b>Photos</b>
                     <span class="arrow">▼</span>
                 </label>
@@ -35,19 +35,19 @@
                 </div>
             </div>             
             <div class="dropdown">
-                <input type="checkbox" id="toggle" class="dropdown-toggle">
-                <label for="toggle" class="panel-button dropdown-label">
+                <input type="checkbox" id="toggle-music" class="dropdown-toggle">
+                <label for="toggle-music" class="panel-button dropdown-label">
                     <b>Music</b>
                     <span class="arrow">▼</span>
                 </label>
                 <div class="dropdown-menu">
-                    <a href=""><button class="small-button">Music</button></a>
-                    <a href=""><button class="small-button">Audio</button></a>
+                    <a href="{% url 'audiozone_sys:music' %}"><button class="small-button">Music</button></a>
+                    <a href="{% url 'audiozone_sys:audio' %}"><button class="small-button">Audio</button></a>
                 </div>
             </div>
             <div class="dropdown">
-                <input type="checkbox" id="toggle" class="dropdown-toggle">
-                <label for="toggle" class="panel-button dropdown-label">
+                <input type="checkbox" id="toggle-video" class="dropdown-toggle">
+                <label for="toggle-video" class="panel-button dropdown-label">
                     <b>Video</b>
                     <span class="arrow">▼</span>
                 </label>

@@ -47,7 +47,7 @@ p {
 
 .right-section {
     display: flex;
-    gap: 15px; /* Расстояние между кнопками */
+    gap: 15px; 
 }
 
 .right-section>a {

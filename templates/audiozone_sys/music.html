@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завантажити музику</title>
+</head>
+<body>
+    <h1>Завантажити музику</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="music">Виберіть музичний файл:</label>
+        <input type="file" name="music" id="music" required>
+        
+        <label for="title">Назва:</label>
+        <input type="text" name="title" id="title" required>
+        
+        <label for="description">Опис:</label>
+        <textarea name="description" id="description" required></textarea>
+        
+        <button type="submit">Завантажити</button>
+    </form>
+
+    <h2>Список завантажених музичних файлів</h2>
+    <ul>
+        {% for music in musics %}
+            <li>
+                <h3>{{ music.title }}</h3>
+                <p>{{ music.description }}</p>
+                <audio controls>
+                    <source src="{{ music.music.url }}" type="audio/mpeg">
+                    Ваш браузер не підтримує аудіо.
+                </audio>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -33,4 +33,5 @@ urlpatterns = [
     path('projects/', include('projectzone_sys.urls')),
     path('profile/', include('profile_sys.urls')),
     path('photo/', include('photozone_sys.urls')),
+    path('audio/', include('audiozone_sys.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
