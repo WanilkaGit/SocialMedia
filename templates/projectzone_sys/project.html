@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завантаження даних</title>
+</head>
+<body>
+    <h1>Завантаження даних</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="title">Назва:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="description">Опис:</label>
+        <textarea id="description" name="description"></textarea><br>
+
+        <label for="data-file">Виберіть файл:</label>
+        <input type="file" id="data-file" name="data-file" required><br>
+
+        <button type="submit">Завантажити</button>
+    </form>
+
+    <h2>Завантажені дані</h2>
+    <ul>
+        {% for item in data %}
+            <li>{{ item.title }} - {{ item.description }}</li>
+        {% empty %}
+            <li>Немає завантажених даних.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html> 

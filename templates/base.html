@@ -1,100 +1,78 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Matrix Auth{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
-    <link rel="icon" type="image/png" href="{% static 'logo/favicon.png' %}">  
+  {% load static %}
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'><link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Matrix Auth{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <link rel="icon" type="image/jpg" href="{% static 'logo/favicon.jpg' %}">  
 </head>
 <body>
-    <div class="top-panel">
-        <!-- Левая секция -->
-        <div class="left-section">
-            <a href="{% url 'index' %}">
-                <button class="panel-button"><b>Головна</b></button>
-            </a>
-        </div>
-    
-        <!-- Центральная секция -->
-        <div class="center-section">
-            <a href="">
-                <button class="panel-button">Project</button>
-            </a>
-
-            <div class="dropdown">
-                <input type="checkbox" id="toggle-photos" class="dropdown-toggle">
-                <label for="toggle-photos" class="panel-button dropdown-label">
-                    <b>Photos</b>
-                    <span class="arrow">▼</span>
-                </label>
-                <div class="dropdown-menu">
-                    <a href="{% url 'photozone_sys:photos' %}"><button class="small-button">Photos</button></a>
-                    <a href="{% url 'photozone_sys:images' %}"><button class="small-button">Images</button></a>
-                </div>
-            </div>             
-            <div class="dropdown">
-                <input type="checkbox" id="toggle-music" class="dropdown-toggle">
-                <label for="toggle-music" class="panel-button dropdown-label">
-                    <b>Music</b>
-                    <span class="arrow">▼</span>
-                </label>
-                <div class="dropdown-menu">
-                    <a href="{% url 'audiozone_sys:music' %}"><button class="small-button">Music</button></a>
-                    <a href="{% url 'audiozone_sys:audio' %}"><button class="small-button">Audio</button></a>
-                </div>
+<!-- partial:index.partial.html -->
+<nav>
+  <div class="wrapper">
+    <div class="logo"><a href="#">Logo</a></div>
+    <input type="radio" name="slider" id="menu-btn">
+    <input type="radio" name="slider" id="close-btn">
+    <ul class="nav-links">
+      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li>
+        <a href="#" class="desktop-item">Zones1</a>
+        <input type="checkbox" id="showDrop">
+        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
+        <ul class="drop-menu">
+          <li><a href="#">Projects</a></li>
+          <li><a href="#">Drop menu 2</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" class="desktop-item">Zones2</a>
+        <input type="checkbox" id="showMega">
+        <label for="showMega" class="mobile-item">Zones2</label>
+        <div class="mega-box">
+          <div class="content">
+            <div class="row">
+              <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg" alt="">
             </div>
-            <div class="dropdown">
-                <input type="checkbox" id="toggle-video" class="dropdown-toggle">
-                <label for="toggle-video" class="panel-button dropdown-label">
-                    <b>Video</b>
-                    <span class="arrow">▼</span>
-                </label>
-                <div class="dropdown-menu">
-                    <a href=""><button class="small-button">Long</button></a>
-                    <a href=""><button class="small-button">Short</button></a>
-                </div>
+            <div class="row">
+              <header>Audio</header>
+              <ul class="mega-links">
+                <li><a href="#">Audio</a></li>
+                <li><a href="#">Music</a></li>
+              </ul>
             </div>
+            <div class="row">
+              <header>Video</header>
+              <ul class="mega-links">
+                <li><a href="#">Short</a></li>
+                <li><a href="#">Long</a></li>
+              </ul>
+            </div>
+            <div class="row">
+              <header>Photo</header>
+              <ul class="mega-links">
+                <li><a href="#">Posts</a></li>
+                <li><a href="#">Designs</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-    
-        <!-- Правая секция -->
-        <div class="right-section">
-            {% if not request.user.is_authenticated %}
-                <a href="{% url 'auth_sys:login' %}" class="login-button"><b>Вхід</b></a>
-                <a href="{% url 'auth_sys:registration' %}" class="register-button"><b>Реєстрація</b></a>
-            {% else %}
-                <div class="profile-dropdown">
-                    <div class="user-field dropdown-toggle">
-                        <img src="" alt="avatar" class="avatar">
-                        <div class="user-name">{{ request.user.username }}</div>
-                    </div>
-                    <div class="profile-dropdown-menu">
-                        <a href="" class="dropdown-item">
-                            <img src="" alt="avatar" class="small-avatar">
-                            Мій профіль
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        
-                        <div class="dropdown-divider"></div>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-    
-    {% block content %}
-    {% endblock %}
+      </li>
+      <li><a href="#">Feedback</a></li>
+    </ul>
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+  </div>
+</nav>
 
-    <div class="base-end-div">
-        <p class="base-end">Привіт! Дякую, за використання нашого веб додатку.</p>
-        <p class="base-end">Ми з України і раді бачити тебе в нас. Якщо ми тобі цікаві, ти можеш знайти нас</p>
-        <p class="base-src">Matrix:</p>
-        <p class="base-src">TikTok:</p>
-        <p class="base-src">YouTube:</p>
-        <p class="base-src">Drykarnya:</p>
-        <p class="base-src">GitHub:</p>
-    </div>
-        
+<div class="body-text">
+  <div class="title">Responsive Dropdown and Zones2</div>
+  <div class="sub-title">using only HTML & CSS</div>
+</div>
+<!-- partial -->
+  
 </body>
 </html>

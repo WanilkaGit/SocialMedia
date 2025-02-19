@@ -1,382 +1,325 @@
-body {
-    margin: 0;
-    font-family: "DejaVu Sans Mono", monospace;
-    background-color: #0E141B;
-    padding-top: 2.3cm;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+/* Скидання стандартних стилів для всіх елементів */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Включає padding і border в загальну ширину/висоту елемента */
+  font-family: 'Poppins', sans-serif; /* Встановлює шрифт для всіх елементів */
 }
 
-p {
-    color: #5D8CB3;
+/* Стилі для навігаційної панелі */
+nav {
+  position: fixed; /* Фіксує навігацію вгорі */
+  z-index: 99; /* Встановлює порядок відображення */
+  width: 100%; /* Ширина на всю сторінку */
+  background: #242526; /* Темний фон */
 }
 
-.head {
-    margin-top: 0;
-    color: #4a708f;
-    text-align: center;
+/* Стилі для контейнера навігації */
+nav .wrapper {
+  position: relative;
+  max-width: 1300px; /* Максимальна ширина */
+  padding: 0px 30px; /* Внутрішні відступи */
+  height: 70px; /* Висота навігації */
+  line-height: 70px; /* Висота рядка для вертикального центрування тексту */
+  margin: auto; /* Центрує контейнер */
+  display: flex; /* Використовує flexbox для розташування елементів */
+  align-items: center; /* Вертикальне вирівнювання по центру */
+  justify-content: space-between; /* Розподіляє простір між елементами */
 }
 
-.top-panel {
-    background-color: blue;
-    color: white;
-    border: 0.5px solid white;
-    border-radius: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: -2cm;
-    position: fixed;
-    z-index: 9999;
+/* Стилі для логотипу */
+.wrapper .logo a {
+  color: #f2f2f2; /* Колір тексту */
+  font-size: 30px; /* Розмір шрифту */
+  font-weight: 600; /* Жирність шрифту */
+  text-decoration: none; /* Вимикає підкреслення */
 }
 
-.left-section {
-    margin-right: auto;
+/* Стилі для навігаційних посилань */
+.wrapper .nav-links {
+  display: inline-flex; /* Відображає елементи в ряд */
 }
 
-.center-section {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-right: auto;
+.nav-links li {
+  list-style: none; /* Вимикає маркери списку */
 }
 
-.right-section {
-    display: flex;
-    gap: 15px; 
+/* Стилі для посилань у навігації */
+.nav-links li a {
+  color: #f2f2f2; /* Колір тексту */
+  text-decoration: none; /* Вимикає підкреслення */
+  font-size: 18px; /* Розмір шрифту */
+  font-weight: 500; /* Жирність шрифту */
+  padding: 9px 15px; /* Внутрішні відступи */
+  border-radius: 5px; /* Закруглені кути */
+  transition: all 0.3s ease; /* Анімація при зміні стилю */
 }
 
-.right-section>a {
-    text-decoration: none;
+/* Стилі для посилань при наведенні */
+.nav-links li a:hover {
+  background: #3A3B3C; /* Фон при наведенні */
 }
 
-.panel-button {
-    color: #A0A0A0;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 5px 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: color 0.3s ease;
+/* Стилі для мобільних елементів навігації */
+.nav-links .mobile-item {
+  display: none; /* Сховати на десктопі */
 }
 
-.panel-button:hover {
-    color: white;
+/* Стилі для випадаючого меню */
+.nav-links .drop-menu {
+  position: absolute; /* Випадаюче меню позиціонується відносно батьківського елемента */
+  background: #242526; /* Темний фон */
+  width: 180px; /* Ширина меню */
+  line-height: 45px; /* Висота рядка */
+  top: 85px; /* Відстань від верхньої частини */
+  opacity: 0; /* Непомітне за замовчуванням */
+  visibility: hidden; /* Сховане за замовчуванням */
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15); /* Тінь для меню */
 }
 
-.panel-button:focus {
-    outline: none;
+/* Показати випадаюче меню при наведенні */
+.nav-links li:hover .drop-menu,
+.nav-links li:hover .mega-box {
+  transition: all 0.3s ease; /* Анімація при показі */
+  top: 70px; /* Зміна позиції */
+  opacity: 1; /* Зробити видимим */
+  visibility: visible; /* Показати */
 }
 
-.dropdown {
-    position: relative;
-    width: auto;
+/* Стилі для елементів у випадаючому меню */
+.drop-menu li a {
+  width: 100%; /* Ширина на всю ширину меню */
+  display: block; /* Відображення блочним елементом */
+  padding: 0 0 0 15px; /* Внутрішні відступи */
+  font-weight: 400; /* Нормальна жирність */
+  border-radius: 0px; /* Без закруглень */
 }
 
-.dropdown-toggle {
-    display: none;
+/* Стилі для мегаменю */
+.mega-box {
+  position: absolute; /* Позиціюється відносно батьківського елемента */
+  left: 0; /* Вирівнювання зліва */
+  width: 100%; /* Ширина на всю ширину */
+  padding: 0 30px; /* Внутрішні відступи */
+  top: 85px; /* Відстань від верхньої частини */
+  opacity: 0; /* Непомітне за замовчуванням */
+  visibility: hidden; /* Сховане за замовчуванням */
 }
 
-.dropdown-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: #A0A0A0;
-    font-weight: bold;
-    border-radius: 5px;
-    padding: 5px 15px;
-    transition: color 0.3s ease, transform 0.3s ease;
+/* Стилі для вмісту мегаменю */
+.mega-box .content {
+  background: #242526; /* Темний фон */
+  padding: 25px 20px; /* Внутрішні відступи */
+  display: flex; /* Використовує flexbox для розташування елементів */
+  width: 100%; /* Ширина на всю ширину */
+  justify-content: space-between; /* Розподіляє простір між елементами */
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15); /* Тінь для вмісту */
 }
 
-.dropdown-label:hover {
-    color: white;
+/* Стилі для рядків у мегаменю */
+.mega-box .content .row {
+  width: calc(25% - 30px); /* Ширина рядка */
+  line-height: 45px; /* Висота рядка */
 }
 
-.arrow {
-    margin-left: 5px;
-    font-size: 12px;
-    transition: transform 0.3s ease;
+/* Стилі для зображень у вмісті */
+.content .row img {
+  width: 100%; /* Ширина на всю ширину */
+  height: 100%; /* Висота на всю висоту */
+  object-fit: cover; /* Зберігає пропорції зображення */
 }
 
-.dropdown-toggle:checked + .dropdown-label .arrow {
-    transform: rotate(180deg);
+/* Стилі для заголовків у вмісті */
+.content .row header {
+  color: #f2f2f2; /* Колір тексту */
+  font-size: 20px; /* Розмір шрифту */
+  font-weight: 500; /* Жирність шрифту */
 }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 5px);
-    right: 0;
-    background-color: #000000;
-    border: 0.5px solid white;
-    border-radius: 15px;
-    padding: 15px;
-    width: 110px;
-    z-index: 100;
-    opacity: 0;
-    transform: translateY(-10px) scale(0.9);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+/* Стилі для мегассилок */
+.content .row .mega-links {
+  margin-left: -40px; /* Відступ зліва */
+  border-left: 1px solid rgba(255,255,255,0.09); /* Лінія зліва */
 }
 
-.dropdown-menu>a {
-    text-decoration: none;
+/* Стилі для елементів у мегассилках */
+.row .mega-links li {
+  padding: 0 20px; /* Внутрішні відступи */
 }
 
-.dropdown-toggle:checked + .dropdown-label + .dropdown-menu {
-    display: block;
-    opacity: 1;
-    transform: translateY(0) scale(1);
+/* Стилі для посилань у мегассилках */
+.row .mega-links li a {
+  padding: 0px; /* Внутрішні відступи */
+  padding: 0 20px; /* Внутрішні відступи */
+  color: #d9d9d9; /* Колір тексту */
+  font-size: 17px; /* Розмір шрифту */
+  display: block; /* Відображення блочним елементом */
 }
 
-.small-button {
-    color: #A0A0A0;
-    text-align: left;
-    font-size: 14px;
-    padding: 10px 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    border-radius: 5px;
-    transition: color 0.3s ease, background-color 0.3s ease;
+/* Стилі для посилань у мегассилках при наведенні */
+.row .mega-links li a:hover {
+  color: #f2f2f2; /* Колір тексту при наведенні */
 }
 
-.small-button:hover {
-    color: white;
+/* Стилі для кнопок у навігації */
+.wrapper .btn {
+  color: #fff; /* Колір тексту */
+  font-size: 20px; /* Розмір шрифту */
+  cursor: pointer; /* Курсор при наведенні */
+  display: none; /* Сховати за замовчуванням */
 }
 
-/* Кнопка "Логін" */
-.login-button {
-    color: #211CBF; /* Основной цвет текста */
-    text-decoration: none;
-    font-size: 18px; /* Сделать текст побольше */
-    font-weight: bold;
-    padding: 5px 10px;
-    background: none; /* Убираем фон */
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease;
+/* Стилі для кнопки закриття */
+.wrapper .btn.close-btn {
+  position: absolute; /* Позиціюється відносно батьківського елемента */
+  right: 30px; /* Відстань від правого краю */
+  top: 10px; /* Відстань від верхнього краю */
 }
 
-.login-button:hover {
-    color: #322CF6; /* Цвет текста при наведении */
-}
-
-/* Кнопка "Реєстрація" */
-.register-button {
-    color: #CC0000; /* Основной цвет текста */
-    text-decoration: none;
-    font-size: 18px; /* Сделать текст побольше */
-    font-weight: bold;
-    padding: 5px 10px;
-    background: none; /* Убираем фон */
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-.register-button:hover {
-    color: #FF3333; /* Цвет текста при наведении */
-}
-
-.user-field {
-    display: flex;
-    border-style: solid;
-    border-radius: 10px;
-    border-color: #2a2a2a;
-    background-color: #40404e;
-}
-
-.avatar {
-    object-fit: cover;
-    border-radius: 8px;
-    width: 30px;
-    height: 30px;
-}
-
-.user-name {
-    color: #5D8CB3;
-    margin-left: 0.2cm;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-
-::-webkit-scrollbar {
-    width: 10px;
+/* Стилі для медіа-запитів (адаптивний дизайн) */
+@media screen and (max-width: 970px) {
+  .wrapper .btn {
+    display: block; /* Показати кнопку на мобільних пристроях */
   }
-  
+  .wrapper .nav-links {
+    position: fixed; /* Фіксоване положення */
+    height: 100vh; /* Висота на всю висоту вікна */
+    width: 100%; /* Ширина на всю ширину */
+    max-width: 350px; /* Максимальна ширина */
+    top: 0; /* Вирівнювання зверху */
+    left: -100%; /* Сховати за межами екрана */
+    background: #242526; /* Темний фон */
+    display: block; /* Відображення блочним елементом */
+    padding: 50px 10px; /* Внутрішні відступи */
+    line-height: 50px; /* Висота рядка */
+    overflow-y: auto; /* Прокрутка по вертикалі */
+    box-shadow: 0px 15px 15px rgba(0,0,0,0.18); /* Тінь */
+    transition: all 0.3s ease; /* Анімація при зміні стилю */
+  }
+
+  /* Кастомізований скролбар */
+  ::-webkit-scrollbar {
+    width: 10px; /* Ширина скролбара */
+  }
   ::-webkit-scrollbar-track {
-    background-color: #1E1E1E;
-    border-radius: 5px;
+    background: #242526; /* Фон скролбара */
   }
-  
   ::-webkit-scrollbar-thumb {
-    background-color: #253949;
-    border-radius: 5px;
-    border: 2px solid #1E1E1E;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #A0A0A0;
+    background: #3A3B3C; /* Колір скролбара */
   }
 
-/* Стилі для дропдауну профілю */
-.profile-dropdown {
-    position: relative;
-    display: inline-block;
+  /* Показати навігаційні посилання при натисканні на кнопку меню */
+  #menu-btn:checked ~ .nav-links {
+    left: 0%; /* Вирівнювання зліва */
+  }
+  #menu-btn:checked ~ .btn.menu-btn {
+    display: none; /* Сховати кнопку меню */
+  }
+  #close-btn:checked ~ .btn.menu-btn {
+    display: block; /* Показати кнопку закриття */
+  }
+
+  .nav-links li {
+    margin: 15px 10px; /* Відступи для елементів списку */
+  }
+  .nav-links li a {
+    padding: 0 20px; /* Внутрішні відступи */
+    display: block; /* Відображення блочним елементом */
+    font-size: 20px; /* Розмір шрифту */
+  }
+  .nav-links .drop-menu {
+    position: static; /* Статичне положення */
+    opacity: 1; /* Видимість */
+    top: 65px; /* Відстань зверху */
+    visibility: visible; /* Показати */
+    padding-left: 20px; /* Внутрішні відступи */
+    width: 100%; /* Ширина на всю ширину */
+    max-height: 0px; /* Максимальна висота */
+    overflow: hidden; /* Сховати переповнені елементи */
+    box-shadow: none; /* Без тіні */
+    transition: all 0.3s ease; /* Анімація при зміні стилю */
+  }
+  #showDrop:checked ~ .drop-menu,
+  #showMega:checked ~ .mega-box {
+    max-height: 100%; /* Максимальна висота */
+  }
+  .nav-links .desktop-item {
+    display: none; /* Сховати на мобільних пристроях */
+  }
+  .nav-links .mobile-item {
+    display: block; /* Показати на мобільних пристроях */
+    color: #f2f2f2; /* Колір тексту */
+    font-size: 20px; /* Розмір шрифту */
+    font-weight: 500; /* Жирність шрифту */
+    padding-left: 20px; /* Внутрішні відступи */
+    cursor: pointer; /* Курсор при наведенні */
+    border-radius: 5px; /* Закруглені кути */
+    transition: all 0.3s ease; /* Анімація при зміні стилю */
+  }
+  .nav-links .mobile-item:hover {
+    background: #3A3B3C; /* Фон при наведенні */
+  }
+  .drop-menu li {
+    margin: 0; /* Відступи для елементів списку */
+  }
+  .drop-menu li a {
+    border-radius: 5px; /* Закруглені кути */
+    font-size: 18px; /* Розмір шрифту */
+  }
+  .mega-box {
+    position: static; /* Статичне положення */
+    top: 65px; /* Відстань зверху */
+    opacity: 1; /* Видимість */
+    visibility: visible; /* Показати */
+    padding: 0 20px; /* Внутрішні відступи */
+    max-height: 0px; /* Максимальна висота */
+    overflow: hidden; /* Сховати переповнені елементи */
+    transition: all 0.3s ease; /* Анімація при зміні стилю */
+  }
+  .mega-box .content {
+    box-shadow: none; /* Без тіні */
+    flex-direction: column; /* Вертикальне вирівнювання */
+    padding: 20px 20px 0 20px; /* Внутрішні відступи */
+  }
+  .mega-box .content .row {
+    width: 100%; /* Ширина на всю ширину */
+    margin-bottom: 15px; /* Відступ знизу */
+    border-top: 1px solid rgba(255,255,255,0.08); /* Верхня межа */
+  }
+  .mega-box .content .row:nth-child(1),
+  .mega-box .content .row:nth-child(2) {
+    border-top: 0px; /* Без верхньої межі для перших двох рядків */
+  }
+  .content .row .mega-links {
+    border-left: 0px; /* Без лівої межі */
+    padding-left: 15px; /* Внутрішні відступи */
+  }
+  .row .mega-links li {
+    margin: 0; /* Без відступів */
+  }
+  .content .row header {
+    font-size: 19px; /* Розмір шрифту */
+  }
 }
 
-.profile-dropdown-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background: #1E2A38;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    min-width: 200px;
-    z-index: 1000;
-    padding: 8px 0;
+/* Сховати інпут для меню */
+nav input {
+  display: none; /* Сховати інпут */
 }
 
-.profile-dropdown:hover .profile-dropdown-menu {
-    display: block;
+/* Стилі для тексту в центрі */
+.body-text {
+  position: absolute; /* Абсолютне позиціювання */
+  top: 50%; /* Центрування по вертикалі */
+  left: 50%; /* Центрування по горизонталі */
+  transform: translate(-50%, -50%); /* Центрування */
+  width: 100%; /* Ширина на всю ширину */
+  text-align: center; /* Центрування тексту */
+  padding: 0 30px; /* Внутрішні відступи */
 }
-
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-    color: #5D8CB3;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.dropdown-item:hover {
-    background-color: #2C3E50;
-}
-
-.small-avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
-.dropdown-divider {
-    height: 1px;
-    background-color: #2C3E50;
-    margin: 8px 0;
-}
-
-.quick-accounts {
-    padding: 8px 0;
-}
-
-.quick-accounts-header {
-    padding: 4px 16px;
-    color: #7FA1C1;
-    font-size: 0.9em;
-}
-
-.add-account-btn {
-    width: 100%;
-    padding: 8px 16px;
-    background: none;
-    border: none;
-    color: #5D8CB3;
-    cursor: pointer;
-    text-align: left;
-}
-
-.add-account-btn:hover {
-    background-color: #2C3E50;
-}
-
-.logout-item {
-    color: #E74C3C;
-}
-
-.logout-icon {
-    margin-right: 8px;
-    font-style: normal;
-}
-
-/* Стилі для модального вікна */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1001;
-}
-
-.modal-content {
-    position: relative;
-    background-color: #1E2A38;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 500px;
-}
-
-.close {
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    color: #5D8CB3;
-    font-size: 28px;
-    cursor: pointer;
-}
-
-.modal input {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-    background: #2C3E50;
-    border: 1px solid #34495E;
-    border-radius: 4px;
-    color: #7FA1C1;
-}
-
-.modal button {
-    padding: 8px 16px;
-    background: #2C3E50;
-    border: none;
-    border-radius: 4px;
-    color: #7FA1C1;
-    cursor: pointer;
-}
-
-.modal button:hover {
-    background: #34495E;
-}
-
-.account-item {
-    cursor: pointer;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-}
-
-.account-item:hover {
-    background-color: #2C3E50;
-}
-
-/* Видаляємо стару кнопку "Перейти" */
-.switch-btn {
-    display: none;
+.body-text div {
+  font-size: 45px; /* Розмір шрифту */
+  font-weight: 600; /* Жирність шрифту */
 }

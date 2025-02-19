@@ -30,7 +30,7 @@ urlpatterns = [
     path('messenger/', include('messenger_sys.urls')),
     path('video/', include('videozone_sys.urls')),
     path('search/', include('searchzone_sys.urls')),
-    path('projects/', include('projectzone_sys.urls')),
+    path('projectzone/', include('projectzone_sys.urls')),
     path('profile/', include('profile_sys.urls')),
     path('photo/', include('photozone_sys.urls')),
     path('audio/', include('audiozone_sys.urls')),

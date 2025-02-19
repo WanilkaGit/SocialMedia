@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Завантаження даних{% endblock %}
+
+{% block content %}
+<h1>Завантаження даних</h1>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="title">Назва:</label>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="description">Опис:</label>
+    <textarea id="description" name="description"></textarea><br>
+
+    <label for="share_link">Share Link:</label>
+    <input type="text" id="share_link" name="share_link"><br>
+
+    <label for="share_title">Share Title:</label>
+    <input type="text" id="share_title" name="share_title"><br>
+
+    <label for="data-files">Виберіть файли:</label>
+    <input type="file" id="data-files" name="data-files" multiple required><br>
+
+    <button type="submit">Завантажити</button>
+</form>
+
+<h2>Завантажені дані</h2>
+<ul>
+    {% for item in data %}
+        <li>{{ item.title }} - {{ item.description }}</li>
+    {% empty %}
+        <li>Немає завантажених даних.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
