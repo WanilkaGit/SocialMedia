@@ -12,3 +12,10 @@ class ProjectFile(models.Model):
     project = models.ForeignKey(Project, related_name='files', on_delete=models.CASCADE)
     file = models.FileField()
     size = models.CharField(max_length=60)
+
+
+class ShortVideoComments(models.Model):
+    video = models.ManyToManyField(Project, related_name="comments")
+    text = models.TextField()
+    author = models.CharField()
+    # likes = models.TextChoices()
