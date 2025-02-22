@@ -34,19 +34,19 @@ class TemplateVideo(models.Model):#fro usually video type
     share_title = models.CharField(max_length=255)
 
 class ShortVideoComments(models.Model):
-    video = models.ManyToManyField((ShortVideo, LongVideo, TemplateVideo), related_name="comments")
+    short_video = models.ManyToManyField(ShortVideo, related_name="comments")
     text = models.TextField()
     author = models.CharField()
     # likes = models.TextChoices()
 
 class LongVideoComments(models.Model):
-    video = models.ManyToManyField((ShortVideo, LongVideo, TemplateVideo), related_name="comments")
+    long_video = models.ManyToManyField(LongVideo, related_name="comments")
     text = models.TextField()
     author = models.CharField()
     # likes = models.TextChoices()
 
 class TemplateVideoComments(models.Model):
-    video = models.ManyToManyField((ShortVideo, LongVideo, TemplateVideo), related_name="comments")
+    template_video = models.ManyToManyField(TemplateVideo, related_name="comments")
     text = models.TextField()
     author = models.CharField()
     # likes = models.TextChoices()

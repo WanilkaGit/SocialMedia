@@ -20,3 +20,16 @@ class Music(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     share_link = models.TextField()
     share_title = models.CharField(max_length=255)
+
+
+class AudioComments(models.Model):
+    audio = models.ManyToManyField(Audio, related_name="comments")
+    text = models.TextField()
+    author = models.CharField()
+    # likes = models.TextChoices()
+
+class MusicComments(models.Model):
+    music = models.ManyToManyField(Music, related_name="comments")
+    text = models.TextField()
+    author = models.CharField()
+    # likes = models.TextChoices()

@@ -14,8 +14,8 @@ class ProjectFile(models.Model):
     size = models.CharField(max_length=60)
 
 
-class ShortVideoComments(models.Model):
-    video = models.ManyToManyField(Project, related_name="comments")
+class ProjectsComments(models.Model):
+    project = models.ManyToManyField(Project, related_name="comments")
     text = models.TextField()
     author = models.CharField()
     # likes = models.TextChoices()
