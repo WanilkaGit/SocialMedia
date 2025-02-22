@@ -26,10 +26,10 @@ class AudioComments(models.Model):
     audio = models.ManyToManyField(Audio, related_name="comments")
     text = models.TextField()
     author = models.CharField()
-    # likes = models.TextChoices()
+    likes = models.IntegerField(default=0)
 
 class MusicComments(models.Model):
     music = models.ManyToManyField(Music, related_name="comments")
     text = models.TextField()
     author = models.CharField()
-    # likes = models.TextChoices()
+    likes = models.IntegerField(default=0)

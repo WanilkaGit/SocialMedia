@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Audio, Music
+from .models import Audio, AudioComments, Music, MusicComments
 from django.http import HttpResponse
 from django.contrib import messages
 import asyncio
@@ -64,3 +64,33 @@ def music_view(request):
         content = {"musics": musics_list}
     
     return render(request=request, template_name='audiozone_sys/music.html', context=content)
+
+def add_audio_comment(request, audio_id):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        author = request.POST.get('author')
+        audio = Audio.objects.get(id=audio_id)
+        
+        if text and author:
+            comment = AudioComments.objects.create(text=text, author=author)
+            comment.audio.add(audio)
+            messages.success(request, 'Коментар успішно додано!')
+        else:
+            messages.error(request, 'Будь ласка, заповніть всі поля.')
+    
+    return redirect('audiozone_sys:audio_detail', audio_id=audio_id)
+
+def add_music_comment(request, music_id):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        author = request.POST.get('author')
+        music = Music.objects.get(id=music_id)
+        
+        if text and author:
+            comment = MusicComments.objects.create(text=text, author=author)
+            comment.music.add(music)
+            messages.success(request, 'Коментар успішно додано!')
+        else:
+            messages.error(request, 'Будь ласка, заповніть всі поля.')
+    
+    return redirect('audiozone_sys:music_detail', music_id=music_id)

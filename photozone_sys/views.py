@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Photos, Imgs4Designs
+from .models import Photos, PhotosComments, Imgs4Designs, Imgs4DesignsComments
 from django.http import HttpResponse
 from django.contrib import messages
 import asyncio
@@ -64,3 +64,33 @@ def imgs_4_designs_view(request):
         content = {"imgs": imgs_list}
     
     return render(request=request, template_name='photozone_sys/imgs.html', context=content)
+
+def add_photo_comment(request, photo_id):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        author = request.POST.get('author')
+        photo = Photos.objects.get(id=photo_id)
+        
+        if text and author:
+            comment = PhotosComments.objects.create(text=text, author=author)
+            comment.photo.add(photo)
+            messages.success(request, 'Коментар успішно додано!')
+        else:
+            messages.error(request, 'Будь ласка, заповніть всі поля.')
+    
+    return redirect('photozone_sys:photo_detail', photo_id=photo_id)
+
+def add_image_comment(request, image_id):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        author = request.POST.get('author')
+        image = Imgs4Designs.objects.get(id=image_id)
+        
+        if text and author:
+            comment = Imgs4DesignsComments.objects.create(text=text, author=author)
+            comment.image.add(image)
+            messages.success(request, 'Коментар успішно додано!')
+        else:
+            messages.error(request, 'Будь ласка, заповніть всі поля.')
+    
+    return redirect('photozone_sys:image_detail', image_id=image_id)
