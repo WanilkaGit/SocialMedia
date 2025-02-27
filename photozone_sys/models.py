@@ -22,11 +22,11 @@ class Imgs4Designs(models.Model):
 class PhotosComments(models.Model):
     photo = models.ManyToManyField(Photos, related_name="comments")
     text = models.TextField()
-    author = models.CharField()
+    author = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)
 
 class Imgs4DesignsComments(models.Model):
     image = models.ManyToManyField(Imgs4Designs, related_name="comments")
     text = models.TextField()
-    author = models.CharField()
+    author = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)

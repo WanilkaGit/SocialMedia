@@ -17,6 +17,6 @@ class ProjectFile(models.Model):
 class ProjectsComments(models.Model):
     project = models.ManyToManyField(Project, related_name="comments")
     text = models.TextField()
-    author = models.CharField()
+    author = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)
     # likes = models.TextChoices()

@@ -18,33 +18,16 @@ def registration_view(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            matrix_user_id = form.cleaned_data['matrix_user_id']
             password = form.cleaned_data['password']
             display_name = form.cleaned_data.get('display_name', '')
 
-            # Виклик асинхронної функції реєстрації
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            response = loop.run_until_complete(register_user(matrix_user_id, password, display_name))
+            # Створення користувача без Matrix
+            user = User.objects.create_user(username=display_name, password=password)
+            
+            # Генерація JWT
+            access_token = AccessToken.for_user(user)
 
-            if isinstance(response, RegisterResponse):
-                # Реєстрація успішна
-                user = User.objects.create_user(username=matrix_user_id.split(':')[0][1:], password=password)
-                MatrixUser.objects.create(
-                    user=user,
-                    matrix_user_id=matrix_user_id,
-                    access_token=response.access_token,
-                    device_id=response.device_id,
-                    display_name=display_name
-                )
-                
-                # Генерація JWT
-                access_token = AccessToken.for_user(user)
-
-                return render(request, 'auth_sys/login.html', {'form': form, 'access_token': str(access_token)})
-            else:
-                # Обробка помилок реєстрації
-                return render(request, 'auth_sys/registration.html', {'form': form, 'error': str(response)})
+            return render(request, 'auth_sys/login.html', {'form': form, 'access_token': str(access_token)})
 
     else:
         form = RegistrationForm()
@@ -52,99 +35,40 @@ def registration_view(request):
     return render(request, 'auth_sys/registration.html', {'form': form})
 
 
-async def login_matrix(username, password):
-    client = AsyncClient("https://matrix.org", username)
-    
-    response = await client.login(password)
-    await client.close()
-    
-    if isinstance(response, LoginResponse):
-        print(response.access_token)
-        return response.access_token  # Повертаємо access_token
-    else:
-        return None  # Якщо логін не вдався, повертаємо None
-
 def login_view(request):
-    form = LoginForm(request.POST or None)  # Ініціалізуємо форму на початку
+    form = LoginForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
-            matrix_user_id = form.cleaned_data['matrix_user_id']
             password = form.cleaned_data['password']
+            display_name = form.cleaned_data.get('display_name', '')
 
-            # Отримуємо username без @ та домену
-            username = matrix_user_id.split(':')[0][1:]
-
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            response = loop.run_until_complete(login_matrix(username=matrix_user_id, password=password))
-
-            if response != None:
-                # Перевірка існування MatrixUser
-
-                user = authenticate(username=username, password=password)
-                # Перевірка існування MatrixUser
-                if user is not None:
-                    login(request, user)
-                    matrix_user, created = MatrixUser.objects.get_or_create(
-                        name=username,
-                        matrix_user_id=matrix_user_id,
-                        defaults={'password': password}
-                    )
-                    
-                    # Перевірка існування SMUser
-                    sm_user, created = SMUser.objects.get_or_create(
-                        display_name=username,
-                        defaults={'custom_pref': {}}  # Використовуємо custom_pref як приклад
-                    )
-                    
-                    # Додавання MatrixUser до SMUser
-                    sm_user.matrix_user.add(matrix_user)
-                    
-                    # Зміна значення OneToOneField
-                    sm_user.current_user = matrix_user
-                    sm_user.save()  # Збереження змін
-                    sm_user.current_user.access_token = response
-                    sm_user.current_user.save()
-                    print(sm_user.current_user.access_token)
-                    print(response) 
-                    
-                    return redirect("photozone_sys:photos")
-                else:
-                    return HttpResponse("Failed to log in")
+            user = authenticate(username=display_name, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("photozone_sys:photos")
+            else:
+                return HttpResponse("Failed to log in")
 
     return render(request, 'auth_sys/login.html', {'form': form})
 
-async def logout_matrix(access_token):
-    client = AsyncClient("https://matrix.org")
-    try:
-        if access_token:
-            client.access_token = access_token
-            response = await client.logout()
-            return response
-    except LocalProtocolError:
-        print("User was not logged in to Matrix.")
-    finally:
-        await client.close()
 
 def logout_view(request):
     if request.method == 'POST':
-        user = request.user
-        
-        if user.is_authenticated and hasattr(user, 'current_user'):
-            matrix_user = user.current_user
-            access_token = getattr(matrix_user, 'access_token', None)
-            
-            if access_token:
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.run_until_complete(logout_matrix(access_token))
-                
-                # Очистити access_token перед виходом
-                matrix_user.access_token = ""
-                matrix_user.save()
-        
         logout(request)
         return redirect('auth_sys:login')
     
     return render(request, 'auth_sys/logout.html')
+
+
+def switch_account_view(request, account_id):
+    try:
+        new_account = SMUser.objects.get(id=account_id)
+        if request.user.is_authenticated:
+            # Перемикання на новий акаунт
+            login(request, new_account)
+            return redirect('photozone_sys:photos')
+    except SMUser.DoesNotExist:
+        return HttpResponse("Account does not exist")
+
+    return redirect('auth_sys:login')

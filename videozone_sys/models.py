@@ -36,17 +36,17 @@ class TemplateVideo(models.Model):#fro usually video type
 class ShortVideoComments(models.Model):
     short_video = models.ManyToManyField(ShortVideo, related_name="comments")
     text = models.TextField()
-    author = models.CharField()
+    author = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)
 
 class LongVideoComments(models.Model):
     long_video = models.ManyToManyField(LongVideo, related_name="comments")
     text = models.TextField()
-    author = models.CharField()
+    author = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)
 
 class TemplateVideoComments(models.Model):
     template_video = models.ManyToManyField(TemplateVideo, related_name="comments")
     text = models.TextField()
-    author = models.CharField()
+    author = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)

@@ -5,17 +5,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    initial = True
-
     dependencies = [
+        ('videozone_sys', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Audio',
+            name='TemplateVideo',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('audio', models.FileField(upload_to='')),
+                ('long_video', models.FileField(upload_to='')),
                 ('size', models.CharField(max_length=60)),
                 ('long', models.CharField(max_length=60)),
                 ('title', models.CharField(max_length=255)),
@@ -25,38 +24,39 @@ class Migration(migrations.Migration):
                 ('share_title', models.CharField(max_length=255)),
             ],
         ),
-        migrations.CreateModel(
-            name='Music',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('music', models.FileField(upload_to='')),
-                ('size', models.CharField(max_length=60)),
-                ('long', models.CharField(max_length=60)),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.TextField()),
-                ('creation_date', models.DateTimeField(auto_now_add=True)),
-                ('share_link', models.TextField()),
-                ('share_title', models.CharField(max_length=255)),
-            ],
+        migrations.AddField(
+            model_name='shortvideo',
+            name='likes',
+            field=models.IntegerField(blank=True, null=True),
         ),
         migrations.CreateModel(
-            name='AudioComments',
+            name='LongVideoComments',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField()),
                 ('author', models.CharField(max_length=255)),
                 ('likes', models.IntegerField(default=0)),
-                ('audio', models.ManyToManyField(related_name='comments', to='audiozone_sys.audio')),
+                ('long_video', models.ManyToManyField(related_name='comments', to='videozone_sys.longvideo')),
             ],
         ),
         migrations.CreateModel(
-            name='MusicComments',
+            name='ShortVideoComments',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField()),
                 ('author', models.CharField(max_length=255)),
                 ('likes', models.IntegerField(default=0)),
-                ('music', models.ManyToManyField(related_name='comments', to='audiozone_sys.music')),
+                ('short_video', models.ManyToManyField(related_name='comments', to='videozone_sys.shortvideo')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='TemplateVideoComments',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('text', models.TextField()),
+                ('author', models.CharField(max_length=255)),
+                ('likes', models.IntegerField(default=0)),
+                ('template_video', models.ManyToManyField(related_name='comments', to='videozone_sys.templatevideo')),
             ],
         ),
     ]

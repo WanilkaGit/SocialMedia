@@ -3,12 +3,6 @@
 {% block content %}
 <form method="POST" action="{% url 'auth_sys:registration' %}" id="registration-form">
     {% csrf_token %}
-    {{ form.matrix_user_id.label_tag }}
-    {{ form.matrix_user_id }}
-    {% if form.matrix_user_id.errors %}
-        <div class="error">{{ form.matrix_user_id.errors }}</div>
-    {% endif %}
-
     {{ form.password.label_tag }}
     {{ form.password }}
     {% if form.password.errors %}
