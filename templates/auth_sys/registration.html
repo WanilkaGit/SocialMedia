@@ -1,25 +1,5 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<form method="POST" action="{% url 'auth_sys:registration' %}" id="registration-form">
+<form method="post">
     {% csrf_token %}
-    {{ form.password.label_tag }}
-    {{ form.password }}
-    {% if form.password.errors %}
-        <div class="error">{{ form.password.errors }}</div>
-    {% endif %}
-
-    {{ form.display_name.label_tag }}
-    {{ form.display_name }}
-    {% if form.display_name.errors %}
-        <div class="error">{{ form.display_name.errors }}</div>
-    {% endif %}
-
-    <button type="submit">Зареєструватися</button>
+    {{ form.as_p }}
+    <button type="submit">Register</button>
 </form>
-
-{% if access_token %}
-    <p>Ваш токен: {{ access_token }}</p>
-{% endif %}
-
-{% endblock %}

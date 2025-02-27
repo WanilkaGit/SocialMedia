@@ -19,10 +19,10 @@ nav {
 /* Стилі для контейнера навігації */
 nav .wrapper {
   position: relative;
-  max-width: 1300px; /* Максимальна ширина */
+  max-width: 2200px; /* Максимальна ширина */
   padding: 0px 30px; /* Внутрішні відступи */
-  height: 70px; /* Висота навігації */
-  line-height: 70px; /* Висота рядка для вертикального центрування тексту */
+  height: 10%; /* Висота навігації у відсотках */
+  line-height: 10%; /* Висота рядка для вертикального центрування тексту у відсотках */
   margin: auto; /* Центрує контейнер */
   display: flex; /* Використовує flexbox для розташування елементів */
   align-items: center; /* Вертикальне вирівнювання по центру */
@@ -31,8 +31,9 @@ nav .wrapper {
 
 /* Стилі для логотипу */
 .wrapper .logo a {
+
   color: #f2f2f2; /* Колір тексту */
-  font-size: 30px; /* Розмір шрифту */
+  font-size: 2.5%; /* Розмір шрифту у відсотках */
   font-weight: 600; /* Жирність шрифту */
   text-decoration: none; /* Вимикає підкреслення */
 }
@@ -50,9 +51,9 @@ nav .wrapper {
 .nav-links li a {
   color: #f2f2f2; /* Колір тексту */
   text-decoration: none; /* Вимикає підкреслення */
-  font-size: 18px; /* Розмір шрифту */
+  font-size: 1.5%; /* Розмір шрифту у відсотках */
   font-weight: 500; /* Жирність шрифту */
-  padding: 9px 15px; /* Внутрішні відступи */
+  padding: 1% 1.5%; /* Внутрішні відступи у відсотках */
   border-radius: 5px; /* Закруглені кути */
   transition: all 0.3s ease; /* Анімація при зміні стилю */
 }
@@ -111,7 +112,7 @@ nav .wrapper {
 /* Стилі для вмісту мегаменю */
 .mega-box .content {
   background: #242526; /* Темний фон */
-  padding: 25px 20px; /* Внутрішні відступи */
+  padding: 2% 2%; /* Внутрішні відступи у відсотках */
   display: flex; /* Використовує flexbox для розташування елементів */
   width: 100%; /* Ширина на всю ширину */
   justify-content: space-between; /* Розподіляє простір між елементами */
@@ -134,7 +135,7 @@ nav .wrapper {
 /* Стилі для заголовків у вмісті */
 .content .row header {
   color: #f2f2f2; /* Колір тексту */
-  font-size: 20px; /* Розмір шрифту */
+  font-size: 1.7%; /* Розмір шрифту у відсотках */
   font-weight: 500; /* Жирність шрифту */
 }
 
@@ -166,7 +167,7 @@ nav .wrapper {
 /* Стилі для кнопок у навігації */
 .wrapper .btn {
   color: #fff; /* Колір тексту */
-  font-size: 20px; /* Розмір шрифту */
+  font-size: 2%; /* Розмір шрифту у відсотках */
   cursor: pointer; /* Курсор при наведенні */
   display: none; /* Сховати за замовчуванням */
 }
@@ -225,9 +226,9 @@ nav .wrapper {
     margin: 15px 10px; /* Відступи для елементів списку */
   }
   .nav-links li a {
-    padding: 0 20px; /* Внутрішні відступи */
+    padding: 0 2%; /* Внутрішні відступи у відсотках */
+    font-size: 2%; /* Розмір шрифту у відсотках */
     display: block; /* Відображення блочним елементом */
-    font-size: 20px; /* Розмір шрифту */
   }
   .nav-links .drop-menu {
     position: static; /* Статичне положення */
@@ -300,7 +301,7 @@ nav .wrapper {
     margin: 0; /* Без відступів */
   }
   .content .row header {
-    font-size: 19px; /* Розмір шрифту */
+    font-size: 1.9%; /* Розмір шрифту у відсотках */
   }
 }
 
@@ -322,4 +323,154 @@ nav input {
 .body-text div {
   font-size: 45px; /* Розмір шрифту */
   font-weight: 600; /* Жирність шрифту */
+}
+
+.nav-end {
+  background: #242526; /* Темний фон */
+}
+
+/* Стиль для елементів <p> */
+.styled-paragraph {
+  color: #f2f2f2; /* Колір тексту */
+  font-size: 1.7%; /* Розмір шрифту у відсотках */
+  font-weight: 500; /* Жирність шрифту */
+  line-height: 45px; /* Висота рядка */
+}
+
+
+
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  background: #333;
+  justify-content: flex-end;
+  align-items: flex-end;
+  min-height: 100vh;
+}
+
+.footer {
+  position: relative;
+  width: 100%;
+  background: #3586ff;
+  min-height: 100px;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.social-icon,
+.menu {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.social-icon__item,
+.menu__item {
+  list-style: none;
+}
+
+.social-icon__link {
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 10px;
+  display: inline-block;
+  transition: 0.5s;
+}
+.social-icon__link:hover {
+  transform: translateY(-10px);
+}
+
+.menu__link {
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 0 10px;
+  display: inline-block;
+  transition: 0.5s;
+  text-decoration: none;
+  opacity: 0.75;
+  font-weight: 300;
+}
+
+.menu__link:hover {
+  opacity: 1;
+}
+
+.footer p {
+  color: #fff;
+  margin: 15px 0 10px 0;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.wave {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: url("https://i.ibb.co/wQZVxxk/wave.png");
+  background-size: 1000px 100px;
+}
+
+.wave#wave1 {
+  z-index: 1000;
+  opacity: 1;
+  bottom: 0;
+  animation: animateWaves 4s linear infinite;
+}
+
+.wave#wave2 {
+  z-index: 999;
+  opacity: 0.5;
+  bottom: 10px;
+  animation: animate 4s linear infinite !important;
+}
+
+.wave#wave3 {
+  z-index: 1000;
+  opacity: 0.2;
+  bottom: 15px;
+  animation: animateWaves 3s linear infinite;
+}
+
+.wave#wave4 {
+  z-index: 999;
+  opacity: 0.7;
+  bottom: 20px;
+  animation: animate 3s linear infinite;
+}
+
+@keyframes animateWaves {
+  0% {
+    background-position-x: 1000px;
+  }
+  100% {
+    background-position-x: 0px;
+  }
+}
+
+@keyframes animate {
+  0% {
+    background-position-x: -1000px;
+  }
+  100% {
+    background-position-x: 0px;
+  }
 }

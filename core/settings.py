@@ -148,4 +148,4 @@ REST_FRAMEWORK = {
     ),
 }
 
-AUTH_USER_MODEL = 'auth_sys.SMUser'  # Використання кастомного користувача
+AUTH_USER_MODEL = 'auth_sys.SMUser'
