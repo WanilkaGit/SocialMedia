@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
 
 /* Скидання стандартних стилів для всіх елементів */
 * {
@@ -14,12 +14,14 @@ nav {
   z-index: 99; /* Встановлює порядок відображення */
   width: 100%; /* Ширина на всю сторінку */
   background: #242526; /* Темний фон */
+  top: 0px;
+  height: max-content;
 }
 
 /* Стилі для контейнера навігації */
 nav .wrapper {
   position: relative;
-  max-width: 2200px; /* Максимальна ширина */
+  max-width: 1700px; /* Максимальна ширина */
   padding: 0px 30px; /* Внутрішні відступи */
   height: 10%; /* Висота навігації у відсотках */
   line-height: 10%; /* Висота рядка для вертикального центрування тексту у відсотках */
@@ -342,22 +344,7 @@ nav input {
 
 
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-body {
-  display: flex;
-  background: #333;
-  justify-content: flex-end;
-  align-items: flex-end;
-  min-height: 100vh;
-}
 
 .footer {
   position: relative;
@@ -369,6 +356,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  bottom: 0px;
 }
 
 .social-icon,

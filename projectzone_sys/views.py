@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Project, ProjectFile, ProjectsComments
 
@@ -8,40 +8,48 @@ def projectszone_view(request):
         description = request.POST.get('description')
         share_link = request.POST.get('share_link')
         share_title = request.POST.get('share_title')
-        
+
+        # Переконайтеся, що користувач автентифікований
+        if not request.user.is_authenticated:
+            messages.error(request, "Ви повинні бути авторизовані для створення проекту.")
+            return redirect('projectszone_sys:projects')
+
         # Створюємо новий проект
-        new_project = Project(
+        new_project = Project.objects.create(
             title=title,
             description=description,
             share_link=share_link,
-            share_title=share_title
+            share_title=share_title,
+            user=request.user  # Додаємо користувача
         )
-        new_project.save()
 
         # Обробка файлів
-        files = request.FILES.getlist('data-files')  # Отримуємо список файлів
+        files = request.FILES.getlist('data-files')
         for file in files:
             ProjectFile.objects.create(project=new_project, file=file, size=file.size)
 
         messages.success(request, 'Дані успішно завантажено!')
         return redirect('projectszone_sys:projects')
-    
+
     data_list = Project.objects.all()
-    content = {"data": data_list}
-    
-    return render(request=request, template_name='projectszone_sys/project.html', context=content)
+    return render(request, 'projectszone_sys/project.html', {"data": data_list})
 
 def add_project_comment(request, project_id):
     if request.method == 'POST':
         text = request.POST.get('text')
-        author = request.POST.get('author')
-        project = Project.objects.get(id=project_id)
-        
-        if text and author:
-            comment = ProjectsComments.objects.create(text=text, author=author)
-            comment.project.add(project)
-            messages.success(request, 'Коментар успішно додано!')
-        else:
-            messages.error(request, 'Будь ласка, заповніть всі поля.')
+        project = get_object_or_404(Project, id=project_id)
+
+        if not text:
+            messages.error(request, 'Будь ласка, введіть коментар.')
+            return redirect('projectszone_sys:project_detail', project_id=project_id)
+
+        # Створюємо коментар
+        ProjectsComments.objects.create(
+            text=text,
+            author=request.user,  # Використовуємо request.user
+            project=project
+        )
+
+        messages.success(request, 'Коментар успішно додано!')
     
-    return redirect('projectzone_sys:project_detail', project_id=project_id)
+    return redirect('projectszone_sys:project_detail', project_id=project_id)

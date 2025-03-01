@@ -30,12 +30,12 @@ class SMUserManager(BaseUserManager):
 
 class SMUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
+    name = models.CharField(max_length=255, blank=True)
+    autintificator = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    display_name = models.CharField(max_length=255, unique=True)
     last_login_at = models.DateTimeField(auto_now=True)
     custom_pref = models.JSONField(default=dict)
     photos = models.ManyToManyField(Photos, blank=True)
