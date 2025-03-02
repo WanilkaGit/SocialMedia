@@ -9,7 +9,7 @@
 }
 
 /* Стилі для навігаційної панелі */
-nav {
+header {
   position: fixed; /* Фіксує навігацію вгорі */
   z-index: 99; /* Встановлює порядок відображення */
   width: 100%; /* Ширина на всю сторінку */
@@ -17,9 +17,8 @@ nav {
 }
 
 /* Стилі для контейнера навігації */
-nav .wrapper {
+header .wrapper {
   position: relative;
-  max-width: 1300px; /* Максимальна ширина */
   padding: 0px 30px; /* Внутрішні відступи */
   height: 70px; /* Висота навігації */
   line-height: 70px; /* Висота рядка для вертикального центрування тексту */
@@ -38,16 +37,16 @@ nav .wrapper {
 }
 
 /* Стилі для навігаційних посилань */
-.wrapper .nav-links {
+.wrapper .header-links {
   display: inline-flex; /* Відображає елементи в ряд */
 }
 
-.nav-links li {
+.header-links li {
   list-style: none; /* Вимикає маркери списку */
 }
 
 /* Стилі для посилань у навігації */
-.nav-links li a {
+.header-links li a {
   color: #f2f2f2; /* Колір тексту */
   text-decoration: none; /* Вимикає підкреслення */
   font-size: 18px; /* Розмір шрифту */
@@ -58,17 +57,17 @@ nav .wrapper {
 }
 
 /* Стилі для посилань при наведенні */
-.nav-links li a:hover {
+.header-links li a:hover {
   background: #3A3B3C; /* Фон при наведенні */
 }
 
 /* Стилі для мобільних елементів навігації */
-.nav-links .mobile-item {
+.header-links .mobile-item {
   display: none; /* Сховати на десктопі */
 }
 
 /* Стилі для випадаючого меню */
-.nav-links .drop-menu {
+.header-links .drop-menu {
   position: absolute; /* Випадаюче меню позиціонується відносно батьківського елемента */
   background: #242526; /* Темний фон */
   width: 180px; /* Ширина меню */
@@ -80,8 +79,8 @@ nav .wrapper {
 }
 
 /* Показати випадаюче меню при наведенні */
-.nav-links li:hover .drop-menu,
-.nav-links li:hover .mega-box {
+.header-links li:hover .drop-menu,
+.header-links li:hover .mega-box {
   transition: all 0.3s ease; /* Анімація при показі */
   top: 70px; /* Зміна позиції */
   opacity: 1; /* Зробити видимим */
@@ -183,7 +182,7 @@ nav .wrapper {
   .wrapper .btn {
     display: block; /* Показати кнопку на мобільних пристроях */
   }
-  .wrapper .nav-links {
+  .wrapper .header-links {
     position: fixed; /* Фіксоване положення */
     height: 100vh; /* Висота на всю висоту вікна */
     width: 100%; /* Ширина на всю ширину */
@@ -211,7 +210,7 @@ nav .wrapper {
   }
 
   /* Показати навігаційні посилання при натисканні на кнопку меню */
-  #menu-btn:checked ~ .nav-links {
+  #menu-btn:checked ~ .header-links {
     left: 0%; /* Вирівнювання зліва */
   }
   #menu-btn:checked ~ .btn.menu-btn {
@@ -221,15 +220,15 @@ nav .wrapper {
     display: block; /* Показати кнопку закриття */
   }
 
-  .nav-links li {
+  .header-links li {
     margin: 15px 10px; /* Відступи для елементів списку */
   }
-  .nav-links li a {
+  .header-links li a {
     padding: 0 20px; /* Внутрішні відступи */
     display: block; /* Відображення блочним елементом */
     font-size: 20px; /* Розмір шрифту */
   }
-  .nav-links .drop-menu {
+  .header-links .drop-menu {
     position: static; /* Статичне положення */
     opacity: 1; /* Видимість */
     top: 65px; /* Відстань зверху */
@@ -245,10 +244,10 @@ nav .wrapper {
   #showMega:checked ~ .mega-box {
     max-height: 100%; /* Максимальна висота */
   }
-  .nav-links .desktop-item {
+  .header-links .desktop-item {
     display: none; /* Сховати на мобільних пристроях */
   }
-  .nav-links .mobile-item {
+  .header-links .mobile-item {
     display: block; /* Показати на мобільних пристроях */
     color: #f2f2f2; /* Колір тексту */
     font-size: 20px; /* Розмір шрифту */
@@ -258,7 +257,7 @@ nav .wrapper {
     border-radius: 5px; /* Закруглені кути */
     transition: all 0.3s ease; /* Анімація при зміні стилю */
   }
-  .nav-links .mobile-item:hover {
+  .header-links .mobile-item:hover {
     background: #3A3B3C; /* Фон при наведенні */
   }
   .drop-menu li {
@@ -305,7 +304,7 @@ nav .wrapper {
 }
 
 /* Сховати інпут для меню */
-nav input {
+header input {
   display: none; /* Сховати інпут */
 }
 
@@ -328,380 +327,9 @@ nav input {
 
 
 
-
-
-
-
-footer p, footer strong, footer b, footer {
-    color: #b0b0b0;
+footer {
+  position:absolute; /* Фіксує навігацію вгорі */
+  width: 100%; /* Ширина на всю сторінку */
+  background: #242526; /* Темний фон */
+  bottom: 0;
 }
-
-.footer-top {
-    background: #303030;
-    background-size: cover;
-    background-position: center;
-    padding: 0 0 20px;
-    font-family: rubik;
-    padding-top:30px;
-  
-}
-
-.footer-top, .footer-bottom {
-    background-color: #1c1f2f;
-}
-
-.footer-bottom {
-    padding: 15px 0;
-    border-top: 1px solid #313646;
-    background-color: #181828 !important;
-    color: #b0b0b0;
-    font-family: rubik;
-    color: #99a9b5;
-    padding-top: 15px;
-}
-
-.footer-site-info {
-    font-size: 92.86%;
-}
-#footer-navigation, #footer-navigation li a:hover, .custom-footer, .custom-footer li a:hover {
-    color: white;
-}
-
-#footer-navigation, #footer-navigation li a, .custom-footer, .custom-footer li a {
-    color: #99a9b5;
-    padding-top: 15px;
-}
-
-.footer-bottom ul {
-    margin: 0;
-}
-.inline-inside {
-    font-size: 0;
-    line-height: 0;
-}
-.clearfix:after, .clearfix:before {
-    content: "";
-    display: table;
-}
-#footer-menu li {
-    display: inline-block;
-    padding: 0 21px;
-    position: relative;
-    line-height: 1;
-}
-
-#footer-navigation, #footer-navigation li a, .custom-footer, .custom-footer li a {
-    color: #99a9b5;
-    padding-top: 15px;
-}
-
-#footer-navigation, #footer-navigation li a, .custom-footer, .custom-footer li a {
-    color: #99a9b5;
-    padding-top: 15px;
-}
-#footer-menu li+li:before {
-    content: '';
-    width: 0;
-    height: 100%;
-    position: absolute;
-    left: -1px;
-    top: 0;
-    font-size: 0;
-    border-left: 1px solid #232234;
-    border-right: 1px solid #333146;
-}
-
-
-navigation li a, .custom-footer, .custom-footer li a {
-    color: #99a9b5;
-    padding-top: 15px;
-}
-
-#footer-socials {
-    text-align: right;
-}
-
-#footer-socials .socials {
-    text-align: right;
-    margin: 0 -7px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-a.socials-item {
-    display: inline-block;
-    vertical-align: top;
-    text-align: center;
-    -o-transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-    margin: 0 5px;
-    line-height: 16px;
-    padding: 10px;
-    border-radius: 50%;
-    background-color: #141421;
-    border: 1px solid #2e2e4c;
-    box-shadow: 3px 9px 16px rgb(0,0,0,0.4), -3px -3px 10px rgba(255,255,255, 0.06), inset 14px 14px 26px rgb(0,0,0,0.3), inset -3px -3px 15px rgba(255,255,255, 0.05);
-}
-
-.socials-item i {
-    display: inline-block;
-    font-weight: normal;
-    width: 1em;
-    height: 1em;
-    line-height: 1;
-    font-size: 16px;
-    text-align: center;
-    vertical-align: top;
-    font-feature-settings: normal;
-    font-kerning: auto;
-    font-language-override: normal;
-    font-size-adjust: none;
-    font-stretch: normal;
-    font-style: normal;
-    font-synthesis: weight style;
-    font-variant: normal;
-    font-weight: normal;
-    text-rendering: auto;
-}
-
-.facebook {
-    color: #4e64b5;
-}
-
-.twitter {
-    color: #00aced;
-}
-.instagram {
-    color: #9a8f62;
-}
-.youtube {
-    color: #c82929;
-}
-
-.telegram {
-    color: #2ca5e0;
-}
-
-
-a.socials-item:hover {
-    box-shadow: 0 0px 20px rgba(84, 1, 74, 0.7);
-    border-color: rgba(255, 6, 224, 0.61);
-    background: linear-gradient(to right, rgba(255, 9, 9, 0.12941176470588237), #c000ffb5, rgba(255, 0, 94, 0.14));
-}
-
-.footer-bottom a:hover {
-    color: white;
-}
-
-
-footer p, footer li {
-    font-size: 15px;
-    line-height: 22px;
-}
-
-
-.widget {
-    margin-bottom: 50px;
-}
-
-.footer-title {
-    margin-bottom: 40px;
-    color: #fff;
-    font-weight: 500;
-    text-transform: capitalize;
-    padding-bottom: 15px;
-    font-size: 16px;
-    position: relative;
-}
-
-.footer-title:after {
-    width: 50px;
-    background: #fff;
-    opacity: 0.2;
-    height: 1px;
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
-.gem-contacts-item {
-    padding-top: 10px;
-    font-size: 15px;
-}
-
-.gem-contacts-item i {
-    padding-right: 10px;
-}
-
-footer .widget ul {
-    list-style: none;
-    margin-top: 5px;
-}
-
-.posts li {
-    border-bottom: 1px solid #393d50;
-    padding-bottom: 12px;
-    padding-top: 6px;
-}
-
-footer p, footer li {
-    font-size: 15px;
-    line-height: 22px;
-}
-
-.gem-pp-posts-date {
-    color: #00bcd4;
-    font-size: 89.5%;
-}
-
-footer p {
-    line-height: 24px;
-    margin-bottom: 10px;font-size: 15px;
-}
-
-.wpcf7-form-control-wrap .wpcf7-form-control {
-    padding: 7px!important;
-    width: 100%;
-}
-
-.wpcf7-form-control-wrap input {
-    background: #1c1f2f;
-    overflow: hidden;
-    border: 1px solid #2e344d;
-    background-color: #1c1f2f;
-    box-shadow: 10px 10px 36px rgb(0,0,0,0.5), -13px -13px 23px rgba(255,255,255, 0.03);
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out 0s;
-}
-
-.wpcf7-form-control-wrap input:hover {
-    background-color: transparent;
-    box-shadow: 10px 10px 36px rgb(0,0,0,0.5), -13px -13px 23px rgba(255,255,255, 0.03), inset 14px 14px 70px rgb(0,0,0,0.2), inset -15px -15px 30px rgba(255,255,255, 0.04);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.wpcf7 .wpcf7-form .contact-form-footer textarea {
-    height: 160px;
-    width: 100%;
-}
-
-.wpcf7-form-control-wrap textarea:hover {
-    background-color: transparent;
-    box-shadow: 10px 10px 36px rgb(0,0,0,0.5), -13px -13px 23px rgba(255,255,255, 0.03), inset 14px 14px 70px rgb(0,0,0,0.2), inset -15px -15px 30px rgba(255,255,255, 0.04);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.wpcf7-form-control-wrap textarea {
-    background: #1c1f2f;
-    overflow: hidden;
-    border: 1px solid #2e344d;
-    background-color: #1c1f2f;
-    box-shadow: 10px 10px 36px rgb(0,0,0,0.5), -13px -13px 23px rgba(255,255,255, 0.03);
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out 0s;
-}
-
-textarea {
-    overflow: auto;
-    resize: vertical;
-}
-
-.wpcf7 .wpcf7-form .contact-form-footer .wpcf7-submit {
-    width: 100%;
-    padding: 11px;
-    margin: 0;
-    line-height: 0;
-}
-.wpcf7-form .contact-form-footer .wpcf7-submit {
-    background-color: #394050;
-    color: #99a9b5;
-    border: none;
-    cursor: pointer;
-    padding: 15px 40px;
-    font-size: 14px;
-    font-weight: 400;
-    transition: all 0.5s;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,.5);
-    box-shadow: none;
-    text-transform: uppercase;
-    outline: none !important;
-    background-color: #1c1f2f;
-    border-radius: 5px;
-    min-width: 140px;
-    /* box-shadow: 10px 10px 36px rgb(0,0,0,0.5), -13px -13px 23px rgba(255,255,255, 0.03), inset 14px 14px 70px rgb(0,0,0,0.2), inset -15px -15px 30px rgba(255,255,255, 0.04); */
-    box-shadow: 3px 9px 16px rgb(0,0,0,0.4), -3px -3px 10px rgba(255,255,255, 0.06), inset 14px 14px 26px rgb(0,0,0,0.3), inset -3px -3px 15px rgba(255,255,255, 0.05);
-    border-width: 1px 0px 0px 1px;
-    border-style: solid;
-    border-color: #2e344d;
-    transition: all 0.3s ease-in-out 0s;
-}
-
-.wpcf7-form input[type=submit] {
-    height: 40px;
-    line-height: 21px;
-    padding: 10px 40px;
-    font-size: 14px;
-}
-
-.posts li a {
-    color: #99a9b5;
-}
-
-.wpcf7-form .contact-form-footer .wpcf7-submit:hover {
-    box-shadow: 0 0px 20px rgba(84, 1, 74, 0.7);
-    border-color: rgba(255, 6, 224, 0.61);
-    background: linear-gradient(to right, rgba(255, 9, 9, 0.12941176470588237), #c000ffb5, rgba(255, 0, 94, 0.14));
-    color: white;
-}
-
-img {
-    border-style: none;
-    height: auto;
-    max-width: 100%;
-    vertical-align: middle;
-}
-.widget_gallery a {
-    display: inline-block;
-}
-footer .widget ul {
-    list-style: none;
-    margin-top: 5px;
-}
-.widget_gallery ul {
-    padding-left: 0;
-    display: table;
-}
-
-.widget_gallery li {
-    display: inline-block;
-    width: 33.33%;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    -o-transition: all 0.5s;
-    padding: 2px;
-}
-
-.widget_gallery.gallery-grid-4 li {
-    width: 30%;
-}
-
-
-#waterdrop {
-    height: 30px;
-}
-
-#waterdrop canvas {
-    bottom: -70px !important;
-}
-
-.footer-site-info
-{
-  padding-top: 10px;
-}
-

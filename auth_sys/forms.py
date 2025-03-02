@@ -18,7 +18,7 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(
         max_length=255,
         label="Email",
-        required=False,
+        required=True,
         help_text="Email: someemail@gmail.com",
         widget=forms.EmailInput()
     )
