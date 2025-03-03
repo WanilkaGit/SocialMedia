@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+{% load static %}
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'><link rel="stylesheet" href="./style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Matrix Auth{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<link rel="icon" type="image/jpg" href="{% static 'logo/favicon.jpg' %}">  
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<header>
+<div class="wrapper">
+    <div class="logo"><a href="#">VanillaCoS</a></div>
+    <input type="radio" name="slider" id="menu-btn">
+    <input type="radio" name="slider" id="close-btn">
+    <ul class="header-links">
+    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+    <li>
+    <a href="#" class="desktop-item">Cources</a>
+    <input type="checkbox" id="showMega">
+    <label for="showMega" class="mobile-item">Cources</label>
+    <div class="mega-box">
+        <div class="content">
+            <div class="row">
+            <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg" alt="">
+            </div>
+            <div class="row">
+            <header>Graphick editing</header>
+            <ul class="mega-links">
+                <li><a href="{% url 'audiozone_sys:audio' %}">Photo editing</a></li>
+                <li><a href="{% url 'audiozone_sys:music' %}">Video editing</a></li>
+                <li><a href="{% url 'audiozone_sys:music' %}">Audio editing</a></li>
+                <li><a href="{% url 'audiozone_sys:music' %}">3D editing</a></li>
+            </ul>
+            </div>
+            <div class="row">
+                <header>All else</header>
+                <ul class="mega-links">
+                    <li><a href="{% url 'photozone_sys:photos' %}"">Code</a></li>
+                    <li><a href="{% url 'photozone_sys:images' %}">Finance</a></li>
+                    <li><a href="{% url 'audiozone_sys:music' %}">Cryptography</a></li>
+                    <li><a href="{% url 'audiozone_sys:music' %}">Scince</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </li>
+    <li>
+        {% if user.is_authenticated %}
+            <a href="#" class="desktop-item">Accounts</a>
+        <input type="checkbox" id="showAccounts">
+        <label for="showAccounts" class="mobile-item">Accounts</label>
+        <ul class="drop-menu">
+            {% for account in user.smuser_set.all %}
+            <li><a href="{% url 'switch_account' account.id %}">{{ account.display_name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <a href="#" class="desktop-item">None</a>
+        {% endif %}
+    </li>
+    <li><a href="{% url 'index' %}">VanillaSM</a></li>
+    </ul>
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+</div>
+</header>
+
+<div class="body-text">
+{% block content %}
+{% endblock %}
+</div>
+
+
+<footer>
+<div class="wrapper">
+    <ul>
+    <li><a class="desktoa-item=">Привіт! Дякую, за використання нашого веб додатку.</a></li>
+    <li><a class="desktoa-item">Ми з України і раді бачити тебе в нас. Якщо ми тобі цікаві, ти можеш знайти нас</a></li>
+    <li><a class="desktoa-item">Matrix:</a></li>
+    <li><a class="desktoa-item">TikTok:</a></li>
+    <li><a class="desktoa-item">YouTube:</a></li>
+    <li><a class="desktoa-item">Drykarnya:</a></li>
+    <li><a class="desktoa-item">GitHub:</a></li>
+    </ul>
+</div>
+</footer>
+</body>
+</html>

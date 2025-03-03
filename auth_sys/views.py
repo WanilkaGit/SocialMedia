@@ -12,7 +12,7 @@ def register_view(request):
             login_name = form.cleaned_data.get("Login")
             authentificator = form.cleaned_data.get("authentificator")
             email = form.cleaned_data.get("Email")
-            password = form.cleaned_data.get("password1")
+            password = form.cleaned_data.get("Password1")
 
             # Перевіряємо, чи користувач вже існує
             if SMUser.objects.filter(autintificator=authentificator).exists():

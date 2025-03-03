@@ -23,8 +23,12 @@ from django.conf.urls.static import static
 def index(request):
     return render(request, 'index.html')
 
+def index_o_info(request):
+    return render(request, 'index_o_info.html')
+
 urlpatterns = [
     path('', index, name='index'),
+    path('cos', index_o_info, name='index_o_info'),
     path('admin/', admin.site.urls),
     path('auth/', include('auth_sys.urls')),
     path('messenger/', include('messenger_sys.urls')),
@@ -34,4 +38,5 @@ urlpatterns = [
     path('profile/', include('profile_sys.urls')),
     path('photo/', include('photozone_sys.urls')),
     path('audio/', include('audiozone_sys.urls')),
+    path('cos/', include('courceszone_sys.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
