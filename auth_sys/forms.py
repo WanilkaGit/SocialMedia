@@ -1,6 +1,13 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import SMUser
 
-class RegisterForm(forms.Form):
+class RegisterForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = SMUser
+        fields = (UserCreationForm().Meta.fields + ("email", "username", "authentificator"))
+
+
     login = forms.CharField(
         max_length=255,
         label="Login",
@@ -36,6 +43,7 @@ class RegisterForm(forms.Form):
         help_text="Password: 12345678 (min symbols: 8)",
         widget=forms.PasswordInput()
     )
+
 
     def clean_authentificator(self):
         authentificator = self.cleaned_data.get("authentificator")

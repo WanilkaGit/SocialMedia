@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Ласкаво просимо!</h1>
     {% if user.is_authenticated %}
-        <p>Ви увійшли як {{ user.username }}</p>
+        <p>Ви увійшли як {{ user.name }}</p>
         <a href="{% url 'auth_sys:logout' %}">Вийти</a>
     {% else %}
         <p>Будь ласка, <a href="{% url 'auth_sys:login' %}">увійдіть</a> або 

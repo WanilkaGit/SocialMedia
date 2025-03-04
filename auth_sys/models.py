@@ -30,7 +30,7 @@ class SMUserManager(BaseUserManager):
 
 class SMUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=255, blank=True)
+    username = models.CharField(max_length=255, blank=True)
     autintificator = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)

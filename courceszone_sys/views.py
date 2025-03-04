@@ -46,14 +46,21 @@ def nlesson_view(request):
                 lc_id=lc_id,
             )
             nlesson.save()
+            addicted_course = Cources.objects.get(id=l_course)
+            addicted_course.c_lessons.add(nlesson)
+            addicted_course.save()
+            return redirect("index_o_info")
         else:
             messages.error(request, "Capitan, SOS, we have trouble some requirment fields is NONE")
-        addicted_course = Cources.objects.get(id=l_course)
-        addicted_course.c_lessons.add(nlesson)
 
-def video_cos(request):
+def audiocos_view(request):
     if request.method == "POST":
-        # Додайте ваш код тут
-        pass
+        cources = Cources.objects.filter(c_type="video")
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources
+        }
+        return render(request, "cources/cources.html", context=context)
+
 
 

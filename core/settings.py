@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'profile_sys',
     'messenger_sys',
     "audiozone_sys",
+    'courceszone_sys',
 ]
 
 MIDDLEWARE = [

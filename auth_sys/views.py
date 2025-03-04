@@ -9,23 +9,7 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            login_name = form.cleaned_data.get("Login")
-            authentificator = form.cleaned_data.get("authentificator")
-            email = form.cleaned_data.get("Email")
-            password = form.cleaned_data.get("Password1")
-
-            # Перевіряємо, чи користувач вже існує
-            if SMUser.objects.filter(autintificator=authentificator).exists():
-                messages.error(request, "Користувач з таким логіном вже існує.")
-                return render(request, "auth_sys/register.html", {"form": form})
-
-            # Створюємо користувача коректним способом
-            user = SMUser.objects.create_user(
-                name=login_name,
-                authentificator=authentificator,
-                email=email,
-                password=password  # Django автоматично хешує пароль
-            )
+            user = form.save()
 
             login(request, user)  # Авторизуємо нового користувача
             messages.success(request, "Реєстрація успішна!")

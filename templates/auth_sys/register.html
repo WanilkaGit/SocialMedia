@@ -4,11 +4,7 @@
 
     <form action="#" method="post">
     {% csrf_token %}
-    {{ form.login }}
-    {{ form.authentificator }}
-    {{ form.email }}
-    {{ form.password1 }}
-    {{ form.password2 }}
+    {{ form.as_p }}
     <button type="submit">Register</button>
     </form>
 
