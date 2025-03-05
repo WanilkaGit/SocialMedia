@@ -25,16 +25,19 @@ def logination_view(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             authentificator = form.cleaned_data.get("authentificator")
-            password = form.cleaned_data.get("password1")
+            password = form.cleaned_data.get("password")
 
-            # Використовуємо `authenticate`
+            # Додайте логування
+            print(f"Authentificator: {authentificator}, Password: {password}")
+
             user = authenticate(request, authentificator=authentificator, password=password)
             if user is not None:
-                login(request, user)  # Авторизуємо користувача
+                login(request, user)
                 messages.success(request, "Успішний вхід!")
                 return redirect("index")
             else:
                 messages.error(request, "Неправильний логін або пароль.")
+                print("Аутентифікація не вдалася")
 
     else:
         form = LoginForm()

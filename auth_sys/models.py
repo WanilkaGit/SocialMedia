@@ -31,7 +31,7 @@ class SMUserManager(BaseUserManager):
 class SMUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=255, blank=True)
-    autintificator = models.CharField(max_length=255)
+    authentificator = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -47,7 +47,7 @@ class SMUser(AbstractBaseUser, PermissionsMixin):
 
     objects = SMUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'authentificator'
     REQUIRED_FIELDS = []
 
     def str(self):

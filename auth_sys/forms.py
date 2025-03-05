@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import SMUser
 
 class RegisterForm(UserCreationForm):
@@ -61,10 +61,7 @@ class RegisterForm(UserCreationForm):
 
         return cleaned_data
 
-
-from django import forms
-
-class LoginForm(forms.Form):
+class LoginForm(AuthenticationForm):
     authentificator = forms.CharField(
         max_length=255,
         label="authentificator",

@@ -4,8 +4,7 @@
 
     <form action="#" method="post">
     {% csrf_token %}
-    {{ form.authentificator }}
-    {{ form.password }}
+    {{ form.as_p }}
     <button type="submit">Login</button>
     </form>
 

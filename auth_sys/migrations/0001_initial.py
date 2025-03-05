@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
                 ('email', models.EmailField(max_length=254, unique=True)),
                 ('username', models.CharField(blank=True, max_length=255)),
-                ('autintificator', models.CharField(max_length=255)),
+                ('authentificator', models.CharField(max_length=255)),
                 ('password', models.CharField(max_length=255)),
                 ('is_active', models.BooleanField(default=True)),
                 ('is_staff', models.BooleanField(default=False)),
