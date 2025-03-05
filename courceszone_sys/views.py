@@ -54,49 +54,44 @@ def nlesson_view(request):
             messages.error(request, "Capitan, SOS, we have trouble some requirment fields is NONE")
 
 def videocos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="video")
-        context = {
-            "title": "Couces that describes how to edit your videos",
-            "cources": cources
-        }
-        return render(request, "cources/cources.html", context=context)
+    cources = Cources.objects.filter(c_type="video")
+    context = {
+        "title": "Couces that describes how to edit your videos",
+        "cources": cources
+    }
+    return render(request, "cources/cources.html", context=context)
     
 def audiocos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="audio")
-        context = {
-            "title": "Couces that describes how to edit your videos",
-            "cources": cources
-        }
-        return render(request, "cources/cources.html", context=context)
+    cources = Cources.objects.filter(c_type="audio")
+    context = {
+        "title": "Couces that describes how to edit your videos",
+        "cources": cources
+    }
+    return render(request, "cources/cources.html", context=context)
     
 def photocos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="photos")
-        context = {
-            "title": "Couces that describes how to edit your videos",
-            "cources": cources
-        }
-        return render(request, "cources/cources.html", context=context)
+    cources = Cources.objects.filter(c_type="photos")
+    context = {
+        "title": "Couces that describes how to edit your videos",
+        "cources": cources
+    }
+    return render(request, "cources/cources.html", context=context)
 
 def model3dcos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="3d-models")
-        context = {
-            "title": "Couces that describes how to edit your videos",
-            "cources": cources
-        }
-        return render(request, "cources/cources.html", context=context)
+    cources = Cources.objects.filter(c_type="3d-models")
+    context = {
+        "title": "Couces that describes how to edit your videos",
+        "cources": cources
+    }
+    return render(request, "cources/cources.html", context=context)
 
 def codecos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="code")
-        context = {
-            "title": "Couces that describes how to edit your videos",
-            "cources": cources
-        }
-        return render(request, "cources/cources.html", context=context)
+    cources = Cources.objects.filter(c_type="code")
+    context = {
+        "title": "Couces that describes how to edit your videos",
+        "cources": cources
+    }
+    return render(request, "cources/cources.html", context=context)
 
 def financecos_view(request):
     if request.method == "POST":

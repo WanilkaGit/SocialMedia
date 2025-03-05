@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'courcezone_sys'
+app_name = 'courceszone_sys'
 
 urlpatterns = [
     path('ncourse/', views.ncourse_view, name='ncourse'),
@@ -16,4 +16,4 @@ urlpatterns = [
     path('finance-cos/', views.financecos_view, name='finance-cos'),
     path('cryptography-cos/', views.cryptographycos_view, name='cryptography-cos'),
     path('scince-cos/', views.scincecos_view, name='scince-cos'),
-] 
+]

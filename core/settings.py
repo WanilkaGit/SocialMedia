@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'projectzone_sys',
     'profile_sys',
     'messenger_sys',
-    "audiozone_sys",
+    'audiozone_sys',
     'courceszone_sys',
 ]
 
