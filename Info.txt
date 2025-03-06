@@ -9,3 +9,5 @@ Pillow, OpenCV, File.size
 
 
 {% endblock %} 
+
+

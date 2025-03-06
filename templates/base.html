@@ -62,6 +62,12 @@
       </li>
       <li>
         {% if user.is_authenticated %}
+        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
+        <ul class="drop-menu">
+          <li><a href="{% url 'auth_sys:login' %}">Add acoount</a></li>
+          <li><a href="{% url 'auth_sys:register' %}">Regist new account</a></li>
+          <li><a href="{% url 'auth_sys:logout' %}">Exit from current</a></li>
+        </ul>
           <a href="#" class="desktop-item">Accounts</a>
           <input type="checkbox" id="showAccounts">
           <label for="showAccounts" class="mobile-item">Accounts</label>
@@ -71,7 +77,7 @@
             {% endfor %}
           </ul>
         {% else %}
-          <a href="#" class="desktop-item">None</a>
+          <a href="#" class="desktop-item">Accounts</a>
         {% endif %}
       </li>
       <li><a href="{% url 'index_o_info' %}">VanillaCoS</a></li>
