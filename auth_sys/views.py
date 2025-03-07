@@ -43,7 +43,6 @@ def logination_view(request):
             else:
                 messages.error(request, "Неправильний логін або пароль.")
                 print("Аутентифікація не вдалася")
-
     else:
         form = LoginForm()
 

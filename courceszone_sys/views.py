@@ -55,70 +55,131 @@ def nlesson_view(request):
 
 def videocos_view(request):
     cources = Cources.objects.filter(c_type="video")
-    context = {
-        "title": "Couces that describes how to edit your videos",
-        "cources": cources
-    }
+    if cources:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": ""
+        }
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
     return render(request, "cources/cources.html", context=context)
     
 def audiocos_view(request):
     cources = Cources.objects.filter(c_type="audio")
-    context = {
-        "title": "Couces that describes how to edit your videos",
-        "cources": cources
-    }
+    if cources:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": ""
+        }
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
     return render(request, "cources/cources.html", context=context)
     
 def photocos_view(request):
     cources = Cources.objects.filter(c_type="photos")
-    context = {
-        "title": "Couces that describes how to edit your videos",
-        "cources": cources
-    }
+    if cources:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": ""
+        }
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
     return render(request, "cources/cources.html", context=context)
 
 def model3dcos_view(request):
     cources = Cources.objects.filter(c_type="3d-models")
-    context = {
-        "title": "Couces that describes how to edit your videos",
-        "cources": cources
-    }
+    if cources:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": ""
+        }
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
     return render(request, "cources/cources.html", context=context)
 
 def codecos_view(request):
     cources = Cources.objects.filter(c_type="code")
-    context = {
-        "title": "Couces that describes how to edit your videos",
-        "cources": cources
-    }
+    if cources:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": ""
+        }
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
     return render(request, "cources/cources.html", context=context)
 
 def financecos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="finance")
+    cources = Cources.objects.filter(c_type="finance")
+    if cources:
         context = {
             "title": "Couces that describes how to edit your videos",
-            "cources": cources
+            "cources": cources,
+            "special_message": ""
         }
-        return render(request, "cources/cources.html", context=context)
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
+    return render(request, "cources/cources.html", context=context)
 
 def cryptographycos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="cryptography")
+    cources = Cources.objects.filter(c_type="cryptography")
+    if cources:
         context = {
             "title": "Couces that describes how to edit your videos",
-            "cources": cources
+            "cources": cources,
+            "special_message": ""
         }
-        return render(request, "cources/cources.html", context=context)
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
+    return render(request, "cources/cources.html", context=context)
 
 def scincecos_view(request):
-    if request.method == "POST":
-        cources = Cources.objects.filter(c_type="science")
+    cources = Cources.objects.filter(c_type="science")
+    if cources:
         context = {
             "title": "Couces that describes how to edit your videos",
-            "cources": cources
+            "cources": cources,
+            "special_message": ""
         }
-        return render(request, "cources/cources.html", context=context)
+    else:
+        context = {
+            "title": "Couces that describes how to edit your videos",
+            "cources": cources,
+            "special_message": "We found none cources, but you can create your own"
+        }
+    return render(request, "cources/cources.html", context=context)
 
 
 

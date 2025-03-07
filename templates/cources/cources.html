@@ -1,17 +1,22 @@
 {% extends 'base_o_info.html' %}
 
 {% block content %}
-<form 
-<h1> {{title}} </h1>
 
-{% for cource in cources %}
-<p>{{ cource.c_title }}</p>
-<p>{{ cource.c_description }}</p>
-<p>{{ cource.c_type }}</p>
-<p>{{ cource.c_prize }}</p>
-<p>{{ cource.c_addeting_files }}</p>
-<p>{{ cource.c_files }}</p>
-<p>{{ cource.c_pay_choices }}</p>
-{% endfor %}
+{% if special_message %}
+    <h1>{{ special_message }} ;)</h1>
+
+{% else %}
+    <h1> {{title}} </h1>
+
+    {% for cource in cources %}
+    <p>{{ cource.c_title }}</p>
+    <p>{{ cource.c_description }}</p>
+    <p>{{ cource.c_type }}</p>
+    <p>{{ cource.c_prize }}</p>
+    <p>{{ cource.c_addeting_files }}</p>
+    <p>{{ cource.c_files }}</p>
+    <p>{{ cource.c_pay_choices }}</p>
+    {% endfor %}
+{% endif %}
 
 {% endblock %} 
