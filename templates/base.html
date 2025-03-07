@@ -18,6 +18,8 @@
     <input type="radio" name="slider" id="close-btn">
     <ul class="header-links">
       <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+
+
       <li>
         <a href="#" class="desktop-item">Zones1</a>
         <input type="checkbox" id="showDrop">
@@ -27,32 +29,44 @@
           <li><a href="#">Drop menu 2</a></li>
         </ul>
       </li>
+
+
       <li>
         <a href="#" class="desktop-item">Zones2</a>
         <input type="checkbox" id="showMega">
         <label for="showMega" class="mobile-item">Zones2</label>
+
         <div class="mega-box">
           <div class="content">
             <div class="row">
               <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg" alt="">
             </div>
+
             <div class="row">
               <header>Audio</header>
               <ul class="mega-links">
+                <hr>
+                <li><a href="#"">Audio</a></li>
                 <li><a href="{% url 'audiozone_sys:audio' %}">Audio</a></li>
                 <li><a href="{% url 'audiozone_sys:music' %}">Music</a></li>
               </ul>
             </div>
+
             <div class="row">
               <header>Video</header>
               <ul class="mega-links">
+                <hr>
+                <li><a href="#"">Video</a></li>
                 <li><a href="{% url 'videozone_sys:short-video' %}">Short</a></li>
                 <li><a href="{% url 'videozone_sys:long-video' %}">Long</a></li>
               </ul>
             </div>
+
             <div class="row">
               <header>Photo</header>
               <ul class="mega-links">
+                <hr>
+                <li><a href="#"">Photo</a></li>
                 <li><a href="{% url 'photozone_sys:photos' %}"">Posts</a></li>
                 <li><a href="{% url 'photozone_sys:images' %}">Designs</a></li>
               </ul>
@@ -60,6 +74,8 @@
           </div>
         </div>
       </li>
+
+
       <li>
         {% if user.is_authenticated %}
         <label for="showDrop" class="mobile-item">Dropdown Menu</label>

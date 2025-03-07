@@ -4,7 +4,7 @@ from . import views
 app_name = 'courceszone_sys'
 
 urlpatterns = [
-    path('ncourse/', views.ncourse_view, name='ncourse'),
+    path('ncource/', views.ncourse_view, name='ncource'),
     path('nlesson/', views.nlesson_view, name='nlesson'),
 
     path('audios-cos/', views.audiocos_view, name='audios-cos'),

@@ -68,6 +68,16 @@
 </div>
 </header>
 
+<div class="new_group">
+    <h1>Створити Курс</h1>
+    <form method="post" href="{% url 'courceszone_sys:ncource' %}">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Це автоматично згенерує випадаючий список для c_type -->
+        <button type="submit">Зберегти</button>
+    </form>
+</div>
+
+
 <div class="body-text">
 {% block content %}
 {% endblock %}

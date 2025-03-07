@@ -1,8 +1,11 @@
 from django.db import models
 
 # Create your models here.
+class LessonFile(models.Model):
+    lesson = models.ForeignKey('Lessons', related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='lesson_files/')
+
 class Lessons(models.Model):
-    l_file = models.FileField()
     l_title = models.CharField(max_length=255)
     l_description = models.TextField()
     l_time = models.TimeField()
