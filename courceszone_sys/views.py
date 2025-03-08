@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Cources, Lessons
 from django.contrib import messages
-from .form import CreatCourceForm, CreateLessonForm
+from .forms import CreatCourceForm, CreateLessonForm
 
 # Create your views here.
 
@@ -17,7 +17,7 @@ def ncourse_view(request):
     else:
         form = CreatCourceForm()  # Створюємо нову форму для GET запиту
 
-    return render(request, 'template_name.html', {'form': form})  # Змініть 'template_name.html' на ваш шаблон
+    return render(request, 'cources/cources.html', {'form': form})  # Змініть 'template_name.html' на ваш шаблон
 
 def nlesson_view(request):
     if request.method == "POST":
