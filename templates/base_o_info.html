@@ -30,15 +30,17 @@
             <div class="row">
             <header>Graphick editing</header>
             <ul class="mega-links">
-                <li><a href="{% url 'courceszone_sys:audios-cos' %}">Photo editing</a></li>
+                <li><a href="#"">Graphick editing</a></li>
+                <li><a href="{% url 'courceszone_sys:photos-cos' %}">Photo editing</a></li>
                 <li><a href="{% url 'courceszone_sys:videos-cos' %}">Video editing</a></li>
-                <li><a href="{% url 'courceszone_sys:photos-cos' %}">Audio editing</a></li>
+                <li><a href="{% url 'courceszone_sys:audios-cos' %}">Audio editing</a></li>
                 <li><a href="{% url 'courceszone_sys:3d-models-cos' %}">3D editing</a></li>
             </ul>
             </div>
             <div class="row">
                 <header>All else</header>
                 <ul class="mega-links">
+                    <li><a href="#"">All else</a></li>
                     <li><a href="{% url 'courceszone_sys:codes-cos' %}"">Code</a></li>
                     <li><a href="{% url 'courceszone_sys:finance-cos' %}">Finance</a></li>
                     <li><a href="{% url 'courceszone_sys:cryptography-cos' %}">Cryptography</a></li>
@@ -66,16 +68,17 @@
     </ul>
     <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
 </div>
-</header>
-
 <div class="new_group">
     <h1>Створити Курс</h1>
-    <form method="post" href="{% url 'courceszone_sys:ncource' %}">
-        {% csrf_token %}
+    <form method="post" action="{% url 'courceszone_sys:ncource' %}">
+        {% csrf_token %}-
         {{ form.as_p }}  <!-- Це автоматично згенерує випадаючий список для c_type -->
         <button type="submit">Зберегти</button>
     </form>
 </div>
+</header>
+
+
 
 
 <div class="body-text">

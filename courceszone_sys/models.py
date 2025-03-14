@@ -28,7 +28,7 @@ class Cources(models.Model):
     c_prize = models.IntegerField()
     c_addeting_files = models.BooleanField(default=False)
     c_uploaded = models.DateTimeField(auto_now_add=True)
-    c_lessons = models.ManyToManyField(to=Lessons, related_name="cources")
+    c_lessons = models.ManyToManyField(to=Lessons, related_name="cources", )
     c_files = models.CharField(max_length=300)
     c_rating = models.IntegerField(default=0)
     c_bye_count = models.IntegerField(default=0)

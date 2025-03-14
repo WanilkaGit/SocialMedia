@@ -17,7 +17,7 @@ def ncourse_view(request):
     else:
         form = CreatCourceForm()  # Створюємо нову форму для GET запиту
 
-    return render(request, 'cources/cources.html', {'form': form})  # Змініть 'template_name.html' на ваш шаблон
+    return render(request, 'base_o_info.html', {'form': form})  # Змініть 'template_name.html' на ваш шаблон
 
 def nlesson_view(request):
     if request.method == "POST":
@@ -68,7 +68,7 @@ def audiocos_view(request):
     return render(request, "cources/cources.html", context=context)
     
 def photocos_view(request):
-    cources = Cources.objects.filter(c_type="photos")
+    cources = Cources.objects.filter(c_type="Photos")
     if cources:
         context = {
             "title": "Couces that describes how to edit your videos",
