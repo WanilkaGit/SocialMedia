@@ -6,9 +6,6 @@ class CreatCourceForm(forms.ModelForm):
     class Meta:
         model = Cources
         exclude = ["c_uploaded", "c_lessons", "c_rating", "c_bye_count"]
-        help_texts = {
-            "c_title": "Введіть повну назву",
-        }
 
 class CreateLessonForm(forms.ModelForm):
     class Meta:

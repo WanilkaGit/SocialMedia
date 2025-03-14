@@ -15,5 +15,5 @@ urlpatterns = [
     path('codes-cos/', views.codecos_view, name='codes-cos'),
     path('finance-cos/', views.financecos_view, name='finance-cos'),
     path('cryptography-cos/', views.cryptographycos_view, name='cryptography-cos'),
-    path('scince-cos/', views.scincecos_view, name='scince-cos'),
+    path('science-cos/', views.scincecos_view, name='science-cos'),
 ]

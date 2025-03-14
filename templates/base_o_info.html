@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
 {% load static %}
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'><link rel="stylesheet" href="./style.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
+<link rel="stylesheet" href="./style.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{% block title %}Matrix Auth{% endblock %}</title>
@@ -19,84 +20,118 @@
     <ul class="header-links">
     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
     <li>
-    <a href="#" class="desktop-item">Cources</a>
-    <input type="checkbox" id="showMega">
-    <label for="showMega" class="mobile-item">Cources</label>
-    <div class="mega-box">
-        <div class="content">
-            <div class="row">
-            <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg" alt="">
-            </div>
-            <div class="row">
-            <header>Graphick editing</header>
-            <ul class="mega-links">
-                <li><a href="#"">Graphick editing</a></li>
-                <li><a href="{% url 'courceszone_sys:photos-cos' %}">Photo editing</a></li>
-                <li><a href="{% url 'courceszone_sys:videos-cos' %}">Video editing</a></li>
-                <li><a href="{% url 'courceszone_sys:audios-cos' %}">Audio editing</a></li>
-                <li><a href="{% url 'courceszone_sys:3d-models-cos' %}">3D editing</a></li>
-            </ul>
-            </div>
-            <div class="row">
-                <header>All else</header>
-                <ul class="mega-links">
-                    <li><a href="#"">All else</a></li>
-                    <li><a href="{% url 'courceszone_sys:codes-cos' %}"">Code</a></li>
-                    <li><a href="{% url 'courceszone_sys:finance-cos' %}">Finance</a></li>
-                    <li><a href="{% url 'courceszone_sys:cryptography-cos' %}">Cryptography</a></li>
-                    <li><a href="{% url 'courceszone_sys:scince-cos' %}">Scince</a></li>
-                </ul>
+        <a href="#" class="desktop-item">Courses</a>
+        <input type="checkbox" id="showMega">
+        <label for="showMega" class="mobile-item">Courses</label>
+        <div class="mega-box">
+            <div class="content">
+                <div class="row">
+                    <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg" alt="">
+                </div>
+                <div class="row">
+                    <header>Graphic Editing</header>
+                    <ul class="mega-links">
+                        <li><a href="{% url 'courceszone_sys:audios-cos' %}">Photo Editing</a></li>
+                        <li><a href="{% url 'courceszone_sys:videos-cos' %}">Video Editing</a></li>
+                        <li><a href="{% url 'courceszone_sys:photos-cos' %}">Audio Editing</a></li>
+                        <li><a href="{% url 'courceszone_sys:3d-models-cos' %}">3D Editing</a></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <header>All Else</header>
+                    <ul class="mega-links">
+                        <li><a href="{% url 'courceszone_sys:codes-cos' %}">Code</a></li>
+                        <li><a href="{% url 'courceszone_sys:finance-cos' %}">Finance</a></li>
+                        <li><a href="{% url 'courceszone_sys:cryptography-cos' %}">Cryptography</a></li>
+                        <li><a href="{% url 'courceszone_sys:science-cos' %}">Science</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
     </li>
     <li>
         {% if user.is_authenticated %}
             <a href="#" class="desktop-item">Accounts</a>
-        <input type="checkbox" id="showAccounts">
-        <label for="showAccounts" class="mobile-item">Accounts</label>
-        <ul class="drop-menu">
-            {% for account in user.smuser_set.all %}
-            <li><a href="{% url 'switch_account' account.id %}">{{ account.display_name }}</a></li>
-            {% endfor %}
-        </ul>
+            <input type="checkbox" id="showAccounts">
+            <label for="showAccounts" class="mobile-item">Accounts</label>
+            <ul class="drop-menu">
+                {% for account in user.smuser_set.all %}
+                <li><a href="{% url 'switch_account' account.id %}">{{ account.display_name }}</a></li>
+                {% endfor %}
+            </ul>
         {% else %}
-        <a href="#" class="desktop-item">None</a>
+            <a href="#" class="desktop-item">None</a>
         {% endif %}
     </li>
     <li><a href="{% url 'index' %}">VanillaSM</a></li>
     </ul>
     <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
 </div>
+
 <div class="new_group">
     <h1>Створити Курс</h1>
     <form method="post" action="{% url 'courceszone_sys:ncource' %}">
-        {% csrf_token %}-
-        {{ form.as_p }}  <!-- Це автоматично згенерує випадаючий список для c_type -->
+        <input type="hidden" name="csrfmiddlewaretoken" value="AoZfLuWaRFVUDvKtmUDyt9hrdRkr7oIGPDQqRybSJOwvZONAKDP9rhGucKdlAUbM">
+        <p>
+            <label for="id_c_title">C title:</label>
+            <input type="text" name="c_title" maxlength="255" required id="id_c_title">
+        </p>
+        <p>
+            <label for="id_c_description">C description:</label>
+            <textarea name="c_description" cols="40" rows="10" required id="id_c_description"></textarea>
+        </p>
+        <p>
+            <label for="id_c_type">C type:</label>
+            <select name="c_type" id="id_c_type">
+                <option value="Audio">Audio</option>
+                <option value="Video">Video</option>
+                <option value="Photos">Photos</option>
+                <option value="3D Models">3D Models</option>
+                <option value="Code">Code</option>
+                <option value="Finance">Finance</option>
+                <option value="Cryptography">Cryptography</option>
+                <option value="Science">Science</option>
+            </select>
+        </p>
+        <p>
+            <label for="id_c_prize">C prize:</label>
+            <input type="number" name="c_prize" required id="id_c_prize">
+        </p>
+        <p>
+            <label for="id_c_addeting_files">C adding files:</label>
+            <input type="checkbox" name="c_addeting_files" id="id_c_addeting_files">
+        </p>
+        <p>
+            <label for="id_c_files">C files:</label>
+            <input type="text" name="c_files" maxlength="300" required id="id_c_files">
+        </p>
+        <p>
+            <label for="id_c_pay_choices">C pay choices:</label>
+            <select name="c_pay_choices" id="id_c_pay_choices">
+                <option value="IBAN">IBAN</option>
+                <option value="Card number">Card Number</option>
+            </select>
+        </p>
         <button type="submit">Зберегти</button>
     </form>
 </div>
 </header>
-
-
-
 
 <div class="body-text">
 {% block content %}
 {% endblock %}
 </div>
 
-
 <footer>
 <div class="wrapper">
     <ul>
-    <li><a class="desktoa-item=">Привіт! Дякую, за використання нашого веб додатку.</a></li>
-    <li><a class="desktoa-item">Ми з України і раді бачити тебе в нас. Якщо ми тобі цікаві, ти можеш знайти нас</a></li>
-    <li><a class="desktoa-item">Matrix:</a></li>
-    <li><a class="desktoa-item">TikTok:</a></li>
-    <li><a class="desktoa-item">YouTube:</a></li>
-    <li><a class="desktoa-item">Drykarnya:</a></li>
-    <li><a class="desktoa-item">GitHub:</a></li>
+        <li><a class="desktoa-item">Привіт! Дякую, за використання нашого веб-додатку.</a></li>
+        <li><a class="desktoa-item">Ми з України і раді бачити тебе в нас. Якщо ми тобі цікаві, ти можеш знайти нас</a></li>
+        <li><a class="desktoa-item">Matrix:</a></li>
+        <li><a class="desktoa-item">TikTok:</a></li>
+        <li><a class="desktoa-item">YouTube:</a></li>
+        <li><a class="desktoa-item">Друкарня:</a></li>
+        <li><a class="desktoa-item">GitHub:</a></li>
     </ul>
 </div>
 </footer>
