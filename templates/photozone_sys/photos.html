@@ -15,18 +15,20 @@
     </div>
     
     {% if photos %}
-        <div class="photos-grid">
+        <div class="instagram-grid">
             {% for photo in photos %}
-                <div class="photo-item">
+                <div class="instagram-item">
                     {% if photo.photos %}
                         <img src="{{ photo.photos.url }}" alt="{{ photo.title }}">
                     {% endif %}
-                    {% if photo.title %}
-                        <h3>{{ photo.title }}</h3>
-                    {% endif %}
-                    {% if photo.description %}
-                        <p>{{ photo.description }}</p>
-                    {% endif %}
+                    <div class="instagram-info">
+                        {% if photo.title %}
+                            <h3>{{ photo.title }}</h3>
+                        {% endif %}
+                        {% if photo.description %}
+                            <p>{{ photo.description }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -37,3 +39,22 @@
     {% endif %}
 </div>
 {% endblock %}
+
+<style>
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.instagram-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.instagram-info {
+    padding: 10px;
+}
+</style>

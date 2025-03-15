@@ -21,6 +21,10 @@ def photoszone_view(request):
                 share_title=title if title else ''
             )
             new_photo.save()
+            
+            # Додаємо фото до користувача
+            request.user.photos.add(new_photo)
+            
             messages.success(request, 'Фотографію успішно завантажено!')
             return redirect('photozone_sys:photos')
         else:
@@ -51,6 +55,8 @@ def imgs_4_designs_view(request):
                     share_title=title if title else ''
                 )
             new_img.save()
+
+            request.user.imgs.add(new_img)
             messages.success(request=request, message="Ваший фото-дезайн завантажений")
             return redirect('photozone_sys:images')
         else:

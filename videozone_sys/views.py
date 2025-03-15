@@ -22,7 +22,7 @@ def long_videozone_view(request):
             )
             new_photo.save()
             messages.success(request, 'Фотографію успішно завантажено!')
-            return redirect('videozone_sys:long_video')
+            return redirect('videozone_sys:long-video')
         else:
             messages.error(request, 'Будь ласка, виберіть фотографію для завантаження.')
     

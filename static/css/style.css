@@ -320,15 +320,20 @@ header input.header {
 }
 
 /* Стилі для тексту в центрі */
+:root {
+  --header-height: 250px; /* Висота header */
+}
+
 .body-text {
-  position: absolute; /* Абсолютне позиціювання */
-  top: 50%; /* Центрування по вертикалі */
+  position: relative; /* Додано: позиціювання відносно нормального місця */
+  margin-top: var(--header-height); /* Використовуємо CSS-перемінну для відступу зверху */
   left: 50%; /* Центрування по горизонталі */
-  transform: translate(-50%, -50%); /* Центрування */
+  transform: translateX(-50%); /* Центрування по горизонталі */
   width: 100%; /* Ширина на всю ширину */
   text-align: center; /* Центрування тексту */
   padding: 0 30px; /* Внутрішні відступи */
 }
+
 .body-text div {
   font-size: 45px; /* Розмір шрифту */
   font-weight: 600; /* Жирність шрифту */

@@ -1,8 +1,8 @@
 from django.urls import path
-from . import views
+from .views import user_profile_view
 
-app_name = 'messanjer_sys'
+app_name = 'profilezone_sys'
 
 urlpatterns = [
-    # Тут будуть додані URL-шаблони для messanjer_sys
-] 
+    path('profile/', user_profile_view, name='profile'),
+]

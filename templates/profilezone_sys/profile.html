@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="profile-container">
+    <div class="profile-header">
+
+        <div class="profile-info-section">
+            <h2 class="profile-title">User name: <span class="profile-username">{{ user.username }}</span></h2>
+            <div class="profile-info-left">
+                <div class="profile-field">
+                    <h3>Email: <span class="profile-email">{{ user.email }}</span></h3>
+                </div>
+                <div class="profile-field">
+                    <h3>: <span class="profile-phone">{{ user.phone_number }}</span></h3>
+                </div>
+            </div>
+            <div class="profile-description">
+                <div class="profile-field">
+                    <h3>Description:</h3>
+                    <p>{{ user.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-tabs">
+    <div class="tabs-header">
+        <button class="tab-button active" onclick="switchTab('photos')">Photos</button>
+        <button class="tab-button active" onclick="switchTab('photos')">Images</button>
+        <button class="tab-button" onclick="switchTab('long_videos')">Long video</button>
+        <button class="tab-button" onclick="switchTab('short_videos')">Short video</button>
+        <button class="tab-button" onclick="switchTab('audio')">Audio</button>
+        <button class="tab-button" onclick="switchTab('music')">Music</button>
+        <button class="tab-button" onclick="switchTab('projects')">Projects</button>
+    </div>
+    
+    <div id="photos" class="tab-content active">
+        {% for photo in photos %}
+            <div class="media-item">
+                <h3>{{ photo.title }}</h3>
+                <img src="{{ photo.url }}" alt="{{ photo.title }}">
+                <p>{{ photo.description }}</p>
+            </div>
+        {% empty %}
+            <p>This user haven't got any photos</p>
+        {% endfor %}
+    </div>
+
+    <div id="images" class="tab-content active">
+        {% for img in imgs %}
+            <div class="media-item">
+                <h3>{{ img.title }}</h3>
+            </div>
+        {% empty %}
+            <p>This user haven't got any images</p>
+        {% endfor %}
+    </div>
+    
+    <div id="long_videos" class="tab-content">
+        {% for video in videos_long %}
+            <div class="media-item">
+                <h3>{{ video.title }}</h3>
+                <p>{{ video.description }}</p>
+            </div>
+        {% empty %}
+            <p>Користувач ще не завантажив жодного довгого відео</p>
+        {% endfor %}
+    </div>
+
+    <div id="short_videos" class="tab-content">
+        {% for video in videos_short %}
+            <div class="media-item">
+                <h3>{{ video.title }}</h3>
+                <video controls>
+                    <source src="{{ video.url }}" type="video/mp4">
+                    Ваш браузер не підтримує відео.
+                </video>
+                <p>{{ video.description }}</p>
+            </div>
+        {% empty %}
+            <p>Користувач ще не завантажив жодного короткого відео</p>
+        {% endfor %}
+    </div>
+
+    <div id="audio" class="tab-content">
+        {% for audio in audio %}
+            <div class="media-item">
+                <h3>{{ audio.title }}</h3>
+                <audio controls>
+                    <source src="{{ audio.url }}" type="audio/mpeg">
+                    Ваш браузер не підтримує аудіо.
+                </audio>
+                <p>{{ audio.description }}</p>
+            </div>
+        {% empty %}
+            <p>Користувач ще не завантажив жодного аудіо</p>
+        {% endfor %}
+    </div>
+
+    <div id="music" class="tab-content">
+        {% for music in music %}
+            <div class="media-item">
+                <h3>{{ music.title }}</h3>
+                <audio controls>
+                    <source src="{{ music.url }}" type="audio/mpeg">
+                    Ваш браузер не підтримує музику.
+                </audio>
+                <p>{{ music.description }}</p>
+            </div>
+        {% empty %}
+            <p>Користувач ще не завантажив жодної музики</p>
+        {% endfor %}
+    </div>
+
+    <div id="projects" class="tab-content">
+        {% for project in projects %}
+            <div class="portfolio-item">
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.description }}</p>
+                {% if project.link %}
+                    <a href="{{ project.link }}" class="edit-button" target="_blank">
+                        {{ project.link_title|default:"Перейти" }}
+                    </a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>У портфоліо користувача поки немає проектів</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.profile-tabs {
+    margin-top: 30px;
+    background: #1E2A38;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.tabs-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #2C3E50;
+    padding-bottom: 10px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    color: #5D8CB3;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 4px 4px 0 0;
+}
+
+.tab-button:hover {
+    background: #2C3E50;
+}
+
+.tab-button.active {
+    background: #2C3E50;
+    color: #7FA1C1;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.media-item, .portfolio-item {
+    background: #0E141B;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.media-item h3, .portfolio-item h3 {
+    color: #7FA1C1;
+}
+
+.media-item img, .media-item video, .media-item audio {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+</style>
+
+<script>
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+        
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+</script>
+{% endblock %}

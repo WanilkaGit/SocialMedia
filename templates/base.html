@@ -84,7 +84,7 @@
           <li><a href="{% url 'auth_sys:register' %}">Regist new account</a></li>
           <li><a href="{% url 'auth_sys:logout' %}">Exit from current</a></li>
         </ul>
-          <a href="#" class="desktop-item">Accounts</a>
+          <a href="{% url 'profilezone_sys:profile' %}" class="desktop-item">Accounts</a>
           <input type="checkbox" id="showAccounts" class="header">
           <label for="showAccounts" class="mobile-item">Accounts</label>
           <ul class="drop-menu">
@@ -108,3 +108,17 @@
 </div>
 </body>
 </html>
+
+<script>
+const header = document.querySelector('header');
+const headerHeight = header.offsetHeight;
+
+// Встановлюємо значення CSS-перемінної
+document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+
+// Додаємо обробник події для оновлення при зміні розміру вікна
+window.addEventListener('resize', () => {
+    const newHeaderHeight = header.offsetHeight;
+    document.documentElement.style.setProperty('--header-height', `${newHeaderHeight}px`);
+});
+</script>

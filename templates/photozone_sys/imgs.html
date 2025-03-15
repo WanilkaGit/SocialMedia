@@ -15,18 +15,17 @@
     </div>
 
     {% if imgs %}
-        <div class="photos-grid">
+        <div class="tile-grid">
             {% for img in imgs %}
-                <div class="photo-item">
+                <div class="tile-item">
                     {% if img.images %}
                         <img src="{{ img.images.url }}" alt="{{ img.title }}">
                     {% endif %}
-                    {% if img.title %}
-                        <h3>{{ img.title }}</h3>
-                    {% endif %}
-                    {% if img.description %}
-                        <p>{{ img.description }}</p>
-                    {% endif %}
+                    <div class="tile-info">
+                        {% if img.title %}
+                            <h3>{{ img.title }}</h3>
+                        {% endif %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -37,3 +36,22 @@
     {% endif %}
 </div>
 {% endblock %}
+
+<style>
+.tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.tile-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.tile-info {
+    padding: 10px;
+}
+</style>

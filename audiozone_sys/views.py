@@ -20,6 +20,7 @@ def audio_view(request):
                     share_title=title if title else ''
                 )
             new_audio.save()
+            request.user.audios.add(new_audio)
             messages.success(request=request, message="Ваш аудіо файл успішно завантажено")
             return redirect('audiozone_sys:audio')
         else:
@@ -51,6 +52,7 @@ def music_view(request):
                     share_title=title if title else ''
                 )
             new_music.save()
+            request.user.musics.add(new_music)
             messages.success(request=request, message="Ваш музичний файл успішно завантажено")
             return redirect('audiozone_sys:music')
         else:

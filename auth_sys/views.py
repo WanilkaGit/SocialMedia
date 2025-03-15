@@ -26,14 +26,20 @@ def register_view(request):
     return render(request, "auth_sys/register.html", {"form": form})
 
 def logination_view(request):
+    print(1)
     if request.method == 'POST':
+        print(2)
         form = LoginForm(request.POST)
+        print(4)
         if form.is_valid():
+            print(4)
             authentificator = form.cleaned_data.get("authentificator")
+            print(4)
             password = form.cleaned_data.get("password")
+            print(4)
 
             # Додайте логування
-            print(f"Authentificator: {authentificator}, Password: {password}")
+            print(f"authentificator: {authentificator}, Password: {password}")
 
             user = authenticate(request, authentificator=authentificator, password=password)
             if user is not None:

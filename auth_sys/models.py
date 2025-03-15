@@ -15,7 +15,7 @@ import uuid
 class SMUserManager(BaseUserManager):
     def create_user(self, authentificator, password=None, **extra_fields):
         if not authentificator:
-            raise ValueError('The Authentificator field must be set')
+            raise ValueError('The authentificator field must be set')
         authentificator = self.normalize_email(authentificator)
         user = self.model(authentificator=authentificator, **extra_fields)
         user.set_password(password)
@@ -42,6 +42,7 @@ class SMUser(AbstractBaseUser, PermissionsMixin):
     custom_pref = models.JSONField(default=dict)
 
     photos = models.ManyToManyField(Photos, blank=True)
+    imgs = models.ManyToManyField(Imgs4Designs, blank=True)
     videos_long = models.ManyToManyField(LongVideo, blank=True)
     videos_short = models.ManyToManyField(ShortVideo, blank=True)
     audio = models.ManyToManyField(Audio, blank=True)

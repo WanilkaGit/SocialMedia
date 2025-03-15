@@ -24,17 +24,40 @@
     </form>
 
     <h2>Список завантажених довгих відео</h2>
-    <ul>
+    <div class="video-grid">
         {% for video in long_video %}
-            <li>
-                <h3>{{ video.title }}</h3>
-                <p>{{ video.description }}</p>
-                <video width="320" height="240" controls>
+            <div class="video-card">
+                <video width="320" height="180" controls>
                     <source src="{{ video.long_video.url }}" type="video/mp4">
                     Ваш браузер не підтримує відео.
                 </video>
-            </li>
+                <div class="video-info">
+                    <h3>{{ video.title }}</h3>
+                    <p>{{ video.description }}</p>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
+
+<style>
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.video-card {
+    display: flex;
+    width: 640px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-info {
+    padding: 10px;
+    flex: 1;
+}
+</style>
 

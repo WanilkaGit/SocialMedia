@@ -23,6 +23,10 @@ def projectszone_view(request):
             user=request.user  # Додаємо користувача
         )
 
+        new_project.save()
+
+        request.user.projects.add(new_project)
+
         # Обробка файлів
         files = request.FILES.getlist('data-files')
         for file in files:
