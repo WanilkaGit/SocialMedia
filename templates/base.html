@@ -14,15 +14,15 @@
 <header>
   <div class="wrapper">
     <div class="logo"><a href="{% url 'index' %}">VanillaSM</a></div>
-    <input type="radio" name="slider" id="menu-btn">
-    <input type="radio" name="slider" id="close-btn">
+    <input type="radio" name="slider" id="menu-btn" class="header">
+    <input type="radio" name="slider" id="close-btn" class="header">
     <ul class="header-links">
       <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
 
 
       <li>
         <a href="#" class="desktop-item">Zones1</a>
-        <input type="checkbox" id="showDrop">
+        <input type="checkbox" id="showDrop" class="header">
         <label for="showDrop" class="mobile-item">Dropdown Menu</label>
         <ul class="drop-menu">
           <li><a href="#">Projects</a></li>
@@ -33,7 +33,7 @@
 
       <li>
         <a href="#" class="desktop-item">Zones2</a>
-        <input type="checkbox" id="showMega">
+        <input type="checkbox" id="showMega" class="header">
         <label for="showMega" class="mobile-item">Zones2</label>
 
         <div class="mega-box">
@@ -85,7 +85,7 @@
           <li><a href="{% url 'auth_sys:logout' %}">Exit from current</a></li>
         </ul>
           <a href="#" class="desktop-item">Accounts</a>
-          <input type="checkbox" id="showAccounts">
+          <input type="checkbox" id="showAccounts" class="header">
           <label for="showAccounts" class="mobile-item">Accounts</label>
           <ul class="drop-menu">
             {% for account in user.smuser_set.all %}
