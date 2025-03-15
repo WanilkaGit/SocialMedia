@@ -33,7 +33,9 @@ def ncourse_view(request):
             return redirect("index_o_info")
         else:
             messages.error(request, "Будь ласка, заповніть всі обов'язкові поля.")
-    return render(request, "index_o_info.html")
+    # Додано передачу курсів у контекст
+    cources = Cources.objects.all()
+    return render(request, "index_o_info.html", {'cources': cources})
 
 def nlesson_view(request):
     if request.method == "POST":
