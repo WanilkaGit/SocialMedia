@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
+html {
+  height: 100%
+}
+
+
+body {
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
 /* Скидання стандартних стилів для всіх елементів */
 * {
   margin: 0;
@@ -340,8 +351,9 @@ header input.header {
 
 
 footer {
-  position:absolute; /* Фіксує навігацію вгорі */
   width: 100%; /* Ширина на всю сторінку */
   background: #242526; /* Темний фон */
+  position: relative;
   bottom: 0;
+  margin-top: au;
 }

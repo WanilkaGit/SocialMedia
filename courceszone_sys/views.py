@@ -6,18 +6,34 @@ from .forms import CreatCourceForm, CreateLessonForm
 # Create your views here.
 
 def ncourse_view(request):
-    if request.method == "POST":
-        form = CreatCourceForm(request.POST)
-        if form.is_valid():
-            ncourse = form.save()
+    if request.method == 'POST':
+        # Отримання даних з форми
+        c_title = request.POST.get('c_title')
+        c_description = request.POST.get('c_description')
+        c_type = request.POST.get('c_type')
+        c_prize = request.POST.get('c_prize')
+        c_addeting_files = request.POST.get('c_addeting_files') == 'on'  # Перевірка на checkbox
+        c_files = request.POST.get('c_files')
+        c_pay_choices = request.POST.get('c_pay_choices')
+
+        # Перевірка наявності всіх необхідних полів
+        if c_title and c_description and c_type and c_prize and c_pay_choices:
+            # Створення нового об'єкта Cources
+            new_course = Cources(
+                c_title=c_title,
+                c_description=c_description,
+                c_type=c_type,
+                c_prize=c_prize,
+                c_addeting_files=c_addeting_files,
+                c_files=c_files,
+                c_pay_choices=c_pay_choices
+            )
+            new_course.save()  # Збереження в базі даних
             messages.success(request, "Курс додано до списку")
             return redirect("index_o_info")
         else:
-            messages.error(request, "Capitan, we have a trouble, you forgot to add something")
-    else:
-        form = CreatCourceForm()  # Створюємо нову форму для GET запиту
-
-    return render(request, 'base_o_info.html', {'form': form})  # Змініть 'template_name.html' на ваш шаблон
+            messages.error(request, "Будь ласка, заповніть всі обов'язкові поля.")
+    return render(request, "index_o_info.html")
 
 def nlesson_view(request):
     if request.method == "POST":
@@ -68,7 +84,7 @@ def audiocos_view(request):
     return render(request, "cources/cources.html", context=context)
     
 def photocos_view(request):
-    cources = Cources.objects.filter(c_type="Photos")
+    cources = Cources.objects.filter(c_type="photos")
     if cources:
         context = {
             "title": "Couces that describes how to edit your videos",

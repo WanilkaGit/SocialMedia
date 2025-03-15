@@ -10,7 +10,7 @@
 <link rel="icon" type="image/jpg" href="{% static 'logo/favicon.jpg' %}">  
 </head>
 <body>
-<!-- partial:index.partial.html -->
+
 <header>
 <div class="wrapper">
     <div class="logo"><a href="{% url 'index_o_info' %}">VanillaCoS</a></div>
@@ -20,7 +20,7 @@
     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
     <li>
     <a href="#" class="desktop-item">Cources</a>
-    <input type="checkbox" id="showMega" class="header">
+    <input type="checkbox" id="showMega">
     <label for="showMega" class="mobile-item">Cources</label>
     <div class="mega-box">
         <div class="content">
@@ -53,7 +53,7 @@
     <li>
         {% if user.is_authenticated %}
             <a href="#" class="desktop-item">Accounts</a>
-        <input type="checkbox" id="showAccounts" class="header">
+        <input type="checkbox" id="showAccounts">
         <label for="showAccounts" class="mobile-item">Accounts</label>
         <ul class="drop-menu">
             {% for account in user.smuser_set.all %}
@@ -75,7 +75,7 @@
         {% csrf_token %}
         <p>
             <label for="id_c_title">C Title:</label>
-            <input type="text" name="c_title" maxlength="255" required id="id_c_title">
+            <input type="text" name="c_title" maxlength="255" required id="id_c_title" class="input">
         </p>
         <p>
             <label for="id_c_description">C Description:</label>
@@ -127,7 +127,7 @@
 </div>
 
 
-<footer>
+<!-- <footer>
 <div class="wrapper">
     <ul>
     <li><a class="desktoa-item=">Привіт! Дякую, за використання нашого веб додатку.</a></li>
@@ -139,7 +139,7 @@
     <li><a class="desktoa-item">GitHub:</a></li>
     </ul>
 </div>
-</footer>
+</footer> -->
 </body>
 </html>
 
